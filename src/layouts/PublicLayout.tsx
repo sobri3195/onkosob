@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { Menu, X } from 'lucide-react'
+import { HeartPulse, Menu, X } from 'lucide-react'
 
 const navItems = [
   { to: '/', label: 'Beranda' },
@@ -19,7 +19,8 @@ export function PublicLayout({ onAdmin }: { onAdmin: () => void }) {
     <div className='min-h-screen bg-gradient-to-b from-blue-50 via-white to-white dark:from-slate-950 dark:via-slate-950 dark:to-slate-900'>
       <nav className='sticky top-0 z-50 border-b border-blue-100 bg-white/90 p-3 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90'>
         <div className='mx-auto flex max-w-6xl items-center justify-between gap-3'>
-          <Link to='/' className='text-sm font-bold tracking-wide text-blue-900 dark:text-blue-100 md:text-base'>
+          <Link to='/' className='flex items-center gap-2 text-sm font-bold tracking-wide text-blue-900 dark:text-blue-100 md:text-base'>
+            <img src='/logo-onko.svg' alt='Logo Onko Radiasi Indonesia' className='h-8 w-8 rounded-lg border border-blue-100 bg-white p-0.5' />
             Onko Radiasi Indonesia
           </Link>
 
@@ -77,8 +78,14 @@ export function PublicLayout({ onAdmin }: { onAdmin: () => void }) {
         <Outlet />
       </main>
 
-      <footer className='border-t border-blue-100 p-4 text-center text-sm text-slate-600 dark:border-slate-800 dark:text-slate-300'>
-        © Layanan Pasien Onkologi Radiasi Indonesia
+      <footer className='border-t border-blue-100 p-6 text-center text-sm text-slate-600 dark:border-slate-800 dark:text-slate-300'>
+        <div className='mx-auto flex max-w-6xl flex-col items-center gap-2'>
+          <p className='inline-flex items-center gap-2 font-medium text-blue-700 dark:text-blue-200'>
+            <HeartPulse size={16} className='animate-pulse-glow rounded-full' />
+            Platform edukasi & layanan pasien onkologi radioterapi.
+          </p>
+          <p>© Layanan Pasien Onkologi Radiasi Indonesia</p>
+        </div>
       </footer>
     </div>
   )
