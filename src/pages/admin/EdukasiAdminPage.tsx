@@ -1,15 +1,111 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { uniqueSlug } from '@/utils/slugify'
 import type { Article } from '@/data/seed'
 import type { Store } from '@/store/useLocalStore'
 
-export function EdukasiAdminPage({store,onSave,onDelete}:{store:Store;onSave:(a:Article)=>void;onDelete:(id:string)=>void}) {
-  const [open,setOpen]=useState(false); const [q,setQ]=useState(''); const [status,setStatus]=useState('all')
-  const [form,setForm]=useState<Article>({id:'',title:'',slug:'',category:'',tags:[],excerpt:'',content:'',status:'draft',createdAt:new Date().toISOString().slice(0,10),updatedAt:new Date().toISOString().slice(0,10)})
-  const list=store.articles.filter(a=>a.title.toLowerCase().includes(q.toLowerCase()) && (status==='all'||a.status===status))
-  return <div><div className='mb-2 flex gap-2'><Input placeholder='Cari' value={q} onChange={e=>setQ(e.target.value)}/><select className='rounded border px-2' value={status} onChange={e=>setStatus(e.target.value)}><option value='all'>all</option><option>draft</option><option>publish</option></select><Button onClick={()=>{setForm({...form,id:crypto.randomUUID()});setOpen(true)}}>Tambah</Button></div><table className='w-full text-sm'><thead><tr><th>Judul</th><th>Status</th><th>Aksi</th></tr></thead><tbody>{list.map(a=><tr key={a.id}><td>{a.title}</td><td>{a.status}</td><td className='space-x-2'><Button className='bg-slate-700' onClick={()=>{setForm(a);setOpen(true)}}>Edit</Button><a href={`/edukasi/${a.slug}`} target='_blank'>Preview</a><Button className='bg-red-600' onClick={()=>onDelete(a.id)}>Hapus</Button></td></tr>)}</tbody></table>
-  <Dialog open={open}><DialogContent><h3 className='font-semibold'>Form Artikel</h3><div className='space-y-2'><Input placeholder='Title' value={form.title} onChange={e=>setForm({...form,title:e.target.value,slug:uniqueSlug(e.target.value,store.articles.filter(a=>a.id!==form.id).map(a=>a.slug))})}/><Input placeholder='Slug' value={form.slug} onChange={e=>setForm({...form,slug:e.target.value})}/><Input placeholder='Kategori' value={form.category} onChange={e=>setForm({...form,category:e.target.value})}/><Input placeholder='Tags (pisah koma)' value={form.tags.join(',')} onChange={e=>setForm({...form,tags:e.target.value.split(',').map(x=>x.trim()).filter(Boolean)})}/><Input placeholder='Excerpt' value={form.excerpt} onChange={e=>setForm({...form,excerpt:e.target.value})}/><textarea className='w-full rounded border p-2 dark:bg-slate-800' value={form.content} onChange={e=>setForm({...form,content:e.target.value})}/><select className='w-full rounded border p-2 dark:bg-slate-800' value={form.status} onChange={e=>setForm({...form,status:e.target.value as Article['status']})}><option>draft</option><option>publish</option></select><div className='flex gap-2'><Button onClick={()=>{onSave({...form,updatedAt:new Date().toISOString().slice(0,10)});setOpen(false)}}>Simpan</Button><Button className='bg-slate-600' onClick={()=>setOpen(false)}>Tutup</Button></div></div></DialogContent></Dialog></div>
+export function EdukasiAdminPage({ store, onSave, onDelete }: { store: Store; onSave: (a: Article) => void; onDelete: (id: string) => void }) {
+  const [open, setOpen] = useState(false)
+  const [q, setQ] = useState('')
+  const [status, setStatus] = useState('all')
+  const [form, setForm] = useState<Article>({
+    id: '',
+    title: '',
+    slug: '',
+    category: '',
+    tags: [],
+    excerpt: '',
+    content: '',
+    status: 'draft',
+    createdAt: new Date().toISOString().slice(0, 10),
+    updatedAt: new Date().toISOString().slice(0, 10)
+  })
+
+  const list = store.articles.filter((a) => a.title.toLowerCase().includes(q.toLowerCase()) && (status === 'all' || a.status === status))
+
+  return (
+    <div className='space-y-3'>
+      <Card>
+        <div className='mb-2 flex gap-2'>
+          <Input placeholder='Cari artikel' value={q} onChange={(e) => setQ(e.target.value)} />
+          <select className='rounded border px-2 dark:bg-slate-800' value={status} onChange={(e) => setStatus(e.target.value)}>
+            <option value='all'>all</option>
+            <option>draft</option>
+            <option>publish</option>
+          </select>
+          <Button
+            onClick={() => {
+              setForm({ ...form, id: crypto.randomUUID() })
+              setOpen(true)
+            }}
+          >
+            Tambah
+          </Button>
+        </div>
+        <table className='w-full text-sm'>
+          <thead>
+            <tr>
+              <th className='text-left'>Judul</th>
+              <th className='text-left'>Status</th>
+              <th className='text-left'>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {list.map((a) => (
+              <tr key={a.id} className='border-t'>
+                <td>{a.title}</td>
+                <td>{a.status}</td>
+                <td className='space-x-2 py-2'>
+                  <Button className='bg-slate-700' onClick={() => { setForm(a); setOpen(true) }}>
+                    Edit
+                  </Button>
+                  <a href={`/edukasi/${a.slug}`} target='_blank' rel='noreferrer' className='text-blue-600 underline'>
+                    Preview
+                  </a>
+                  <Button className='bg-red-600' onClick={() => onDelete(a.id)}>
+                    Hapus
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Card>
+
+      <Dialog open={open}>
+        <DialogContent>
+          <h3 className='font-semibold'>Form Artikel</h3>
+          <div className='space-y-2'>
+            <Input
+              placeholder='Title'
+              value={form.title}
+              onChange={(e) =>
+                setForm({ ...form, title: e.target.value, slug: uniqueSlug(e.target.value, store.articles.filter((a) => a.id !== form.id).map((a) => a.slug)) })
+              }
+            />
+            <Input placeholder='Slug' value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} />
+            <Input placeholder='Kategori' value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} />
+            <Input
+              placeholder='Tags (pisah koma)'
+              value={form.tags.join(',')}
+              onChange={(e) => setForm({ ...form, tags: e.target.value.split(',').map((x) => x.trim()).filter(Boolean) })}
+            />
+            <Input placeholder='Excerpt' value={form.excerpt} onChange={(e) => setForm({ ...form, excerpt: e.target.value })} />
+            <textarea className='w-full rounded border p-2 dark:bg-slate-800' value={form.content} onChange={(e) => setForm({ ...form, content: e.target.value })} />
+            <select className='w-full rounded border p-2 dark:bg-slate-800' value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value as Article['status'] })}>
+              <option>draft</option>
+              <option>publish</option>
+            </select>
+            <div className='flex gap-2'>
+              <Button onClick={() => { onSave({ ...form, updatedAt: new Date().toISOString().slice(0, 10) }); setOpen(false) }}>Simpan</Button>
+              <Button className='bg-slate-600' onClick={() => setOpen(false)}>Tutup</Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  )
 }

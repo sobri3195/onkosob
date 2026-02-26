@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Card } from '@/components/ui/card'
-import { Activity, CalendarClock, FileText, MessageCircleQuestion, ShieldCheck, Stethoscope } from 'lucide-react'
+import { Activity, CalendarClock, FileText, HeartHandshake, MessageCircleQuestion, ShieldCheck, Sparkles, Stethoscope } from 'lucide-react'
 import type { Store } from '@/store/useLocalStore'
 
 const features = [
@@ -25,6 +25,8 @@ const features = [
     icon: ShieldCheck
   }
 ]
+
+const journey = ['Daftar & unggah berkas awal', 'Konsultasi awal dengan tim medis', 'Simulasi & perencanaan terapi', 'Sesi radioterapi terjadwal', 'Monitoring pasca terapi']
 
 export function HomePage({ store }: { store: Store }) {
   const active = store.announcements.filter((a) => a.isActive)
@@ -59,6 +61,25 @@ export function HomePage({ store }: { store: Store }) {
         </div>
       </section>
 
+      <section className='overflow-hidden rounded-xl border border-blue-100 bg-white py-3 dark:border-slate-700 dark:bg-slate-900'>
+        <div className='animate-marquee flex min-w-max gap-8 px-4 text-sm text-slate-600 dark:text-slate-200'>
+          {['Informasi tervalidasi tenaga medis', 'Konten edukasi pasien & keluarga', 'Akses jadwal layanan yang selalu diperbarui', 'Kanal komunikasi dengan admin layanan'].map(
+            (item) => (
+              <p key={item} className='inline-flex items-center gap-2'>
+                <Sparkles size={14} className='text-cyan-600' /> {item}
+              </p>
+            )
+          )}
+          {['Informasi tervalidasi tenaga medis', 'Konten edukasi pasien & keluarga', 'Akses jadwal layanan yang selalu diperbarui', 'Kanal komunikasi dengan admin layanan'].map(
+            (item) => (
+              <p key={`${item}-dup`} className='inline-flex items-center gap-2'>
+                <Sparkles size={14} className='text-cyan-600' /> {item}
+              </p>
+            )
+          )}
+        </div>
+      </section>
+
       <section className='grid grid-cols-2 gap-3 md:grid-cols-4'>
         {[['Artikel', store.articles.length], ['FAQ', store.faqs.length], ['Sesi/Jadwal', store.schedules.length], ['Pengumuman', active.length]].map(
           ([label, value]) => (
@@ -90,6 +111,31 @@ export function HomePage({ store }: { store: Store }) {
           </Card>
         ))}
       </section>
+
+      <section className='rounded-2xl border border-blue-100 bg-blue-50/60 p-4 dark:border-slate-700 dark:bg-slate-900/60 md:p-6'>
+        <h2 className='text-lg font-semibold'>Perjalanan pasien yang lebih jelas</h2>
+        <div className='mt-4 grid gap-3 md:grid-cols-5'>
+          {journey.map((step, index) => (
+            <div key={step} className='relative rounded-xl bg-white p-3 text-sm shadow-sm ring-1 ring-blue-100 dark:bg-slate-900 dark:ring-slate-700'>
+              <p className='mb-1 text-xs font-semibold text-blue-700 dark:text-blue-300'>Langkah {index + 1}</p>
+              <p>{step}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Card className='flex flex-col items-start justify-between gap-3 border-cyan-100 bg-gradient-to-r from-cyan-50 to-blue-50 p-5 dark:border-slate-700 dark:from-slate-900 dark:to-slate-900 md:flex-row md:items-center'>
+        <div>
+          <h3 className='inline-flex items-center gap-2 text-lg font-semibold'>
+            <HeartHandshake className='text-cyan-700 dark:text-cyan-300' size={20} />
+            Butuh konsultasi awal?
+          </h3>
+          <p className='text-sm text-slate-600 dark:text-slate-300'>Hubungi tim kami untuk orientasi layanan, informasi jadwal, dan dukungan keluarga pasien.</p>
+        </div>
+        <Link to='/kontak' className='rounded-full bg-blue-700 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-800'>
+          Hubungi Sekarang
+        </Link>
+      </Card>
     </div>
   )
 }
