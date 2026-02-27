@@ -4,6 +4,18 @@ export type Schedule = { id: string; day: string; time: string; service: string;
 export type Announcement = { id: string; title: string; message: string; isActive: boolean; start?: string; end?: string }
 export type Inbox = { id: string; name: string; phone?: string; email?: string; message: string; read: boolean; createdAt: string }
 export type Settings = { theme: 'light'|'dark'; contact: { phone: string; email: string; address: string; hours: string } }
+export type OnboardingData = {
+  completed: boolean
+  completedAt?: string
+  goal: 'pahami-terapi' | 'atur-jadwal' | 'dukungan-keluarga' | ''
+  notificationPreferences: {
+    whatsapp: boolean
+    email: boolean
+    push: boolean
+    reminderTime: 'pagi' | 'siang' | 'malam' | ''
+  }
+  educationTopics: string[]
+}
 
 export const seed = {
   articles: [
@@ -124,5 +136,16 @@ export const seed = {
       hours:'Senin-Jumat 07.30-15.00 WIB'
     }
   } as Settings,
+  onboarding: {
+    completed: false,
+    goal: '',
+    notificationPreferences: {
+      whatsapp: true,
+      email: false,
+      push: false,
+      reminderTime: 'pagi'
+    },
+    educationTopics: ['Efek Samping', 'Nutrisi']
+  } as OnboardingData,
   isAdmin: false
 }

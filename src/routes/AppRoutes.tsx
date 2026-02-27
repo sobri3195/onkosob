@@ -29,7 +29,7 @@ export function AppRoutes() {
 
   return <Routes>
     <Route element={<PublicLayout onAdmin={()=>{loginAdmin(); toast.success('Admin demo aktif'); nav('/admin/dashboard')}}/>}>
-      <Route path='/' element={<HomePage store={store} />} />
+      <Route path='/' element={<HomePage store={store} onCompleteOnboarding={(payload)=>update(s=>({...s,onboarding:payload}))} />} />
       <Route path='/edukasi' element={<EdukasiPage store={store} />} />
       <Route path='/edukasi/:slug' element={<EdukasiDetailPage store={store} />} />
       <Route path='/jadwal' element={<JadwalPage store={store} />} />
