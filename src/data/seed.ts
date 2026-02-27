@@ -90,6 +90,30 @@ export const seed = {
       status:'publish',
       createdAt:'2026-01-28',
       updatedAt:'2026-01-28'
+    },
+    {
+      id:'a7',
+      title:'Checklist Hari Pertama Radioterapi',
+      slug:'checklist-hari-pertama-radioterapi',
+      category:'Persiapan',
+      tags:['checklist','kunjungan-pertama'],
+      excerpt:'Daftar singkat yang membantu pasien lebih siap pada sesi radioterapi pertama.',
+      content:'Siapkan kartu kontrol, obat rutin, bekal air minum, serta datang 30 menit lebih awal untuk verifikasi data. Jika ada gejala baru, sampaikan kepada petugas sebelum tindakan.',
+      status:'publish',
+      createdAt:'2026-02-02',
+      updatedAt:'2026-02-02'
+    },
+    {
+      id:'a8',
+      title:'Aktivitas Fisik Ringan Selama Terapi',
+      slug:'aktivitas-fisik-ringan-selama-terapi',
+      category:'Aktivitas',
+      tags:['kebugaran','pemulihan'],
+      excerpt:'Panduan aman memilih aktivitas fisik ringan untuk menjaga stamina pasien.',
+      content:'Pilih aktivitas berintensitas rendah seperti jalan kaki 15-20 menit, peregangan, dan latihan napas. Hentikan aktivitas bila merasa pusing, sesak, atau nyeri berlebih.',
+      status:'publish',
+      createdAt:'2026-02-06',
+      updatedAt:'2026-02-06'
     }
   ] as Article[],
   faqs: [
@@ -98,7 +122,9 @@ export const seed = {
     { id:'f3', question:'Apakah saya boleh bekerja selama terapi?', answer:'Sebagian pasien tetap dapat bekerja tergantung kondisi fisik. Diskusikan dengan dokter untuk penyesuaian aktivitas.', category:'Aktivitas' },
     { id:'f4', question:'Kapan harus segera ke IGD?', answer:'Segera ke IGD jika terjadi sesak napas, demam tinggi, perdarahan aktif, atau nyeri berat yang tidak membaik.', category:'Keamanan' },
     { id:'f5', question:'Apakah BPJS dapat digunakan?', answer:'Layanan dapat menggunakan BPJS sesuai prosedur rujukan berjenjang dan kelengkapan dokumen yang berlaku.', category:'Administrasi' },
-    { id:'f6', question:'Bolehkah membawa pendamping?', answer:'Ya, pasien diperbolehkan membawa satu pendamping saat registrasi dan edukasi awal sesuai kebijakan fasilitas.', category:'Layanan' }
+    { id:'f6', question:'Bolehkah membawa pendamping?', answer:'Ya, pasien diperbolehkan membawa satu pendamping saat registrasi dan edukasi awal sesuai kebijakan fasilitas.', category:'Layanan' },
+    { id:'f7', question:'Apakah pasien perlu berpuasa sebelum radioterapi?', answer:'Tidak semua prosedur membutuhkan puasa. Ikuti instruksi khusus dari dokter atau perawat sesuai jenis tindakan.', category:'Persiapan' },
+    { id:'f8', question:'Bagaimana jika saya terlambat datang?', answer:'Segera hubungi nomor layanan agar tim dapat membantu penjadwalan ulang sesi pada slot terdekat.', category:'Jadwal' }
   ] as FAQ[],
   schedules: [
     { id:'s1', day:'Senin', time:'07:30-11:00', service:'Konsultasi Onkologi Radiasi', note:'Nomor antrean dibuka pukul 07:00' },
@@ -107,17 +133,22 @@ export const seed = {
     { id:'s4', day:'Rabu', time:'08:00-14:30', service:'Radioterapi Fraksinasi', note:'Waktu dapat berubah sesuai kondisi mesin' },
     { id:'s5', day:'Kamis', time:'08:00-11:30', service:'Klinik Edukasi Efek Samping', note:'Prioritas pasien dalam terapi aktif' },
     { id:'s6', day:'Kamis', time:'13:00-15:00', service:'Konseling Nutrisi Onkologi', note:'Perlu reservasi dari perawat navigator' },
-    { id:'s7', day:'Jumat', time:'08:00-12:30', service:'Radioterapi & Evaluasi Mingguan', note:'Evaluasi dilakukan oleh DPJP dan tim radioterapi' }
+    { id:'s7', day:'Jumat', time:'08:00-12:30', service:'Radioterapi & Evaluasi Mingguan', note:'Evaluasi dilakukan oleh DPJP dan tim radioterapi' },
+    { id:'s8', day:'Jumat', time:'13:00-15:00', service:'Konseling Psikososial Pasien', note:'Layanan oleh psikolog klinis, kuota terbatas' },
+    { id:'s9', day:'Sabtu', time:'08:00-10:30', service:'Klinik Kontrol Pasca Terapi', note:'Khusus pasien dengan jadwal kontrol terencana' }
   ] as Schedule[],
   announcements: [
     { id:'p1', title:'Pembaruan Alur Registrasi', message:'Mulai 5 Februari 2026, registrasi pasien lama menggunakan kiosk mandiri di lobby utama.', isActive:true, start:'2026-02-05' },
     { id:'p2', title:'Pemeliharaan Perangkat', message:'Layanan radioterapi dihentikan sementara pada Minggu, 16 Februari 2026 untuk kalibrasi berkala.', isActive:true, start:'2026-02-16', end:'2026-02-16' },
-    { id:'p3', title:'Kelas Edukasi Keluarga', message:'Sesi edukasi keluarga pendamping dibuka setiap Kamis pukul 10:00, kuota 25 peserta.', isActive:true, start:'2026-02-01' }
+    { id:'p3', title:'Kelas Edukasi Keluarga', message:'Sesi edukasi keluarga pendamping dibuka setiap Kamis pukul 10:00, kuota 25 peserta.', isActive:true, start:'2026-02-01' },
+    { id:'p4', title:'Pembukaan Layanan Sabtu Pagi', message:'Mulai Maret 2026, tersedia layanan kontrol pasca terapi setiap Sabtu pagi dengan reservasi online.', isActive:true, start:'2026-03-01' }
   ] as Announcement[],
   inbox: [
     { id:'i1', name:'Rina Setiawati', phone:'081290001122', email:'rina.s@example.com', message:'Apakah jadwal simulasi CT bisa dilakukan sore hari?', read:true, createdAt:'2026-02-01T08:22:00Z' },
     { id:'i2', name:'Bapak Ahmad', phone:'081377889900', email:'ahmad.k@example.com', message:'Mohon informasi dokumen rujukan untuk pasien BPJS dari luar kota.', read:false, createdAt:'2026-02-03T02:10:00Z' },
-    { id:'i3', name:'Lina Kartika', email:'lina.k@example.com', message:'Apakah ada layanan konsultasi nutrisi secara online?', read:false, createdAt:'2026-02-03T11:40:00Z' }
+    { id:'i3', name:'Lina Kartika', email:'lina.k@example.com', message:'Apakah ada layanan konsultasi nutrisi secara online?', read:false, createdAt:'2026-02-03T11:40:00Z' },
+    { id:'i4', name:'Dewi Puspita', phone:'081255443322', email:'dewi.p@example.com', message:'Mohon info apakah ada slot kontrol Sabtu untuk pasien pasca terapi?', read:false, createdAt:'2026-02-05T07:18:00Z' },
+    { id:'i5', name:'Budi Santoso', email:'budi.s@example.com', message:'Apakah edukasi keluarga bisa diikuti secara hybrid?', read:true, createdAt:'2026-02-06T10:05:00Z' }
   ] as Inbox[],
   checklist: [
     'Kartu identitas asli & kartu jaminan kesehatan',
