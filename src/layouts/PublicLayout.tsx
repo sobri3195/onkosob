@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { HeartPulse, Menu, X } from 'lucide-react'
+import { BookOpenText, CalendarClock, CircleHelp, HeartPulse, Home, Menu, Phone, Route, X } from 'lucide-react'
 
 const navItems = [
-  { to: '/', label: 'Beranda' },
-  { to: '/edukasi', label: 'Edukasi' },
-  { to: '/jadwal', label: 'Jadwal' },
-  { to: '/panduan', label: 'Panduan' },
-  { to: '/faq', label: 'FAQ' },
-  { to: '/kontak', label: 'Kontak' }
+  { to: '/', label: 'Beranda', icon: Home },
+  { to: '/edukasi', label: 'Edukasi', icon: BookOpenText },
+  { to: '/jadwal', label: 'Jadwal', icon: CalendarClock },
+  { to: '/panduan', label: 'Panduan', icon: Route },
+  { to: '/faq', label: 'FAQ', icon: CircleHelp },
+  { to: '/kontak', label: 'Kontak', icon: Phone }
 ]
 
 export function PublicLayout({ onAdmin }: { onAdmin: () => void }) {
@@ -74,9 +74,34 @@ export function PublicLayout({ onAdmin }: { onAdmin: () => void }) {
         )}
       </nav>
 
-      <main className='mx-auto max-w-6xl p-4 md:p-6'>
+      <main className='mx-auto max-w-6xl p-4 pb-24 md:p-6 md:pb-6'>
         <Outlet />
       </main>
+
+      <nav className='fixed inset-x-0 bottom-0 z-50 border-t border-blue-100 bg-white/95 px-2 py-2 backdrop-blur md:hidden dark:border-slate-800 dark:bg-slate-950/95'>
+        <div className='mx-auto grid max-w-6xl grid-cols-6 gap-1'>
+          {navItems.map((item) => {
+            const Icon = item.icon
+
+            return (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={({ isActive }) =>
+                  `flex flex-col items-center gap-1 rounded-lg px-1 py-2 text-[10px] font-medium transition ${
+                    isActive
+                      ? 'bg-blue-600 text-white'
+                      : 'text-slate-600 hover:bg-blue-50 dark:text-slate-300 dark:hover:bg-slate-800'
+                  }`
+                }
+              >
+                <Icon size={14} />
+                <span>{item.label}</span>
+              </NavLink>
+            )
+          })}
+        </div>
+      </nav>
 
       <footer className='border-t border-blue-100 p-6 text-center text-sm text-slate-600 dark:border-slate-800 dark:text-slate-300'>
         <div className='mx-auto flex max-w-6xl flex-col items-center gap-2'>
