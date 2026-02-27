@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Card } from '@/components/ui/card'
-import { Activity, CalendarClock, FileText, HeartHandshake, MessageCircleQuestion, ShieldCheck, Sparkles, Stethoscope } from 'lucide-react'
+import { Activity, ArrowRight, CalendarClock, FileText, HeartHandshake, MessageCircleQuestion, ShieldCheck, Sparkles, Stethoscope } from 'lucide-react'
 import type { Store } from '@/store/useLocalStore'
 import type { OnboardingData } from '@/data/seed'
 import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard'
@@ -37,6 +37,21 @@ type HomePageProps = {
 
 export function HomePage({ store, onCompleteOnboarding }: HomePageProps) {
   const active = store.announcements.filter((a) => a.isActive)
+  const quickLinks = [
+    { to: '/edukasi', label: 'Edukasi', icon: MessageCircleQuestion },
+    { to: '/jadwal', label: 'Jadwal', icon: CalendarClock },
+    { to: '/panduan', label: 'Panduan', icon: FileText },
+    { to: '/faq', label: 'FAQ', icon: MessageCircleQuestion },
+    { to: '/kontak', label: 'Kontak', icon: Stethoscope }
+  ]
+
+  const summaryStats = [
+    ['Artikel', store.articles.length],
+    ['FAQ', store.faqs.length],
+    ['Sesi/Jadwal', store.schedules.length],
+    ['Pengumuman', active.length]
+  ] as const
+
   const personalization = {
     titleByGoal: {
       'pahami-terapi': 'Fokus Anda: Memahami alur terapi',
@@ -69,25 +84,36 @@ export function HomePage({ store, onCompleteOnboarding }: HomePageProps) {
         </Card>
       )}
 
-      <section className='relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-700 to-cyan-600 p-6 text-white shadow-xl md:p-10'>
+      <section className='relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-700 via-blue-600 to-cyan-600 p-6 text-white shadow-xl md:p-10'>
+        <div className='animate-shimmer absolute inset-0 bg-[linear-gradient(120deg,transparent_0%,rgba(255,255,255,0.12)_30%,transparent_60%)]' />
         <div className='animate-float absolute -right-8 -top-10 h-36 w-36 rounded-full bg-white/10 blur-md' />
         <div className='animate-float absolute -bottom-8 left-10 h-24 w-24 rounded-full bg-cyan-300/30 blur-md [animation-delay:1s]' />
+        <div className='relative grid gap-6 md:grid-cols-[1fr_auto] md:items-end'>
+          <div>
+            <p className='inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-blue-50 ring-1 ring-white/20'>
+              <Sparkles size={14} /> Platform pendamping pasien & keluarga
+            </p>
 
-        <h1 className='max-w-2xl text-2xl font-bold leading-tight md:text-4xl'>Layanan Pasien Onkologi Radiasi Indonesia</h1>
-        <p className='mt-3 max-w-2xl text-sm text-blue-50 md:text-base'>
-          Pusat informasi terintegrasi untuk pasien dan keluarga, mulai dari edukasi, jadwal layanan, hingga konsultasi awal.
-        </p>
+            <h1 className='mt-3 max-w-2xl text-2xl font-bold leading-tight md:text-4xl'>Layanan Pasien Onkologi Radiasi Indonesia</h1>
+            <p className='mt-3 max-w-2xl text-sm text-blue-50 md:text-base'>
+              Pusat informasi terintegrasi untuk pasien dan keluarga, mulai dari edukasi, jadwal layanan, hingga konsultasi awal.
+            </p>
+          </div>
 
-        <div className='mt-6 flex flex-wrap gap-2'>
-          {[
-            { to: '/edukasi', label: 'Edukasi', icon: MessageCircleQuestion },
-            { to: '/jadwal', label: 'Jadwal', icon: CalendarClock },
-            { to: '/panduan', label: 'Panduan', icon: FileText },
-            { to: '/faq', label: 'FAQ', icon: MessageCircleQuestion },
-            { to: '/kontak', label: 'Kontak', icon: Stethoscope }
-          ].map((item) => (
+          <Link
+            to='/kontak'
+            className='group inline-flex items-center gap-2 self-start rounded-full bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:-translate-y-0.5 hover:bg-blue-50'
+          >
+            Konsultasi Sekarang
+            <ArrowRight size={16} className='transition group-hover:translate-x-0.5' />
+          </Link>
+        </div>
+
+        <div className='relative mt-6 flex flex-wrap gap-2'>
+          {quickLinks.map((item, index) => (
             <Link
-              className='inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2 text-sm backdrop-blur transition hover:scale-[1.02] hover:bg-white/30'
+              className='animate-fade-in inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2 text-sm backdrop-blur transition hover:scale-[1.02] hover:bg-white/30'
+              style={{ animationDelay: `${index * 80}ms` }}
               key={item.to}
               to={item.to}
             >
@@ -117,14 +143,16 @@ export function HomePage({ store, onCompleteOnboarding }: HomePageProps) {
       </section>
 
       <section className='grid grid-cols-2 gap-3 md:grid-cols-4'>
-        {[['Artikel', store.articles.length], ['FAQ', store.faqs.length], ['Sesi/Jadwal', store.schedules.length], ['Pengumuman', active.length]].map(
-          ([label, value]) => (
-            <Card key={label as string} className='animate-fade-in border-blue-100 text-center dark:border-slate-700'>
-              <p className='text-2xl font-bold text-blue-700 dark:text-blue-300'>{value as number}</p>
-              <p className='text-xs text-slate-600 dark:text-slate-300 md:text-sm'>{label as string}</p>
-            </Card>
-          )
-        )}
+        {summaryStats.map(([label, value], index) => (
+          <Card
+            key={label}
+            className='animate-fade-in border-blue-100 text-center transition hover:-translate-y-1 hover:shadow-md dark:border-slate-700'
+            style={{ animationDelay: `${index * 110}ms` }}
+          >
+            <p className='text-2xl font-bold text-blue-700 dark:text-blue-300'>{value}</p>
+            <p className='text-xs text-slate-600 dark:text-slate-300 md:text-sm'>{label}</p>
+          </Card>
+        ))}
       </section>
 
       {!!active.length && (
@@ -139,8 +167,12 @@ export function HomePage({ store, onCompleteOnboarding }: HomePageProps) {
       )}
 
       <section className='grid gap-4 md:grid-cols-2'>
-        {features.map((x) => (
-          <Card key={x.title} className='group border-blue-100 transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-slate-700'>
+        {features.map((x, index) => (
+          <Card
+            key={x.title}
+            className='group animate-fade-in border-blue-100 transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-slate-700'
+            style={{ animationDelay: `${index * 120}ms` }}
+          >
             <x.icon className='mb-2 text-blue-600 transition group-hover:scale-110 dark:text-blue-300' size={20} />
             <h3 className='font-semibold'>{x.title}</h3>
             <p className='mt-1 text-sm text-slate-600 dark:text-slate-300'>{x.desc}</p>
@@ -152,7 +184,11 @@ export function HomePage({ store, onCompleteOnboarding }: HomePageProps) {
         <h2 className='text-lg font-semibold'>Perjalanan pasien yang lebih jelas</h2>
         <div className='mt-4 grid gap-3 md:grid-cols-5'>
           {journey.map((step, index) => (
-            <div key={step} className='relative rounded-xl bg-white p-3 text-sm shadow-sm ring-1 ring-blue-100 dark:bg-slate-900 dark:ring-slate-700'>
+            <div
+              key={step}
+              className='relative animate-rise-in rounded-xl bg-white p-3 text-sm shadow-sm ring-1 ring-blue-100 dark:bg-slate-900 dark:ring-slate-700'
+              style={{ animationDelay: `${index * 90}ms` }}
+            >
               <p className='mb-1 text-xs font-semibold text-blue-700 dark:text-blue-300'>Langkah {index + 1}</p>
               <p>{step}</p>
             </div>
