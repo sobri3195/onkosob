@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import { Card } from '@/components/ui/card'
 import { Activity, CalendarClock, FileText, HeartHandshake, MessageCircleQuestion, ShieldCheck, Sparkles, Stethoscope } from 'lucide-react'
 import type { Store } from '@/store/useLocalStore'
+import type { OnboardingData } from '@/data/seed'
+import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard'
 
 const features = [
   {
@@ -28,11 +30,45 @@ const features = [
 
 const journey = ['Daftar & unggah berkas awal', 'Konsultasi awal dengan tim medis', 'Simulasi & perencanaan terapi', 'Sesi radioterapi terjadwal', 'Monitoring pasca terapi']
 
-export function HomePage({ store }: { store: Store }) {
+type HomePageProps = {
+  store: Store
+  onCompleteOnboarding: (payload: OnboardingData) => void
+}
+
+export function HomePage({ store, onCompleteOnboarding }: HomePageProps) {
   const active = store.announcements.filter((a) => a.isActive)
+  const personalization = {
+    titleByGoal: {
+      'pahami-terapi': 'Fokus Anda: Memahami alur terapi',
+      'atur-jadwal': 'Fokus Anda: Mengatur jadwal & pengingat',
+      'dukungan-keluarga': 'Fokus Anda: Dukungan keluarga'
+    } as Record<Exclude<OnboardingData['goal'], ''>, string>,
+    reminderByTime: {
+      pagi: 'Pengingat aktif di pagi hari agar persiapan kunjungan lebih tenang.',
+      siang: 'Pengingat aktif di siang hari untuk menyesuaikan aktivitas harian.',
+      malam: 'Pengingat aktif di malam hari untuk persiapan esok hari.'
+    } as Record<Exclude<OnboardingData['notificationPreferences']['reminderTime'], ''>, string>
+  }
 
   return (
     <div className='space-y-6 md:space-y-8'>
+      {!store.onboarding.completed && <OnboardingWizard initial={store.onboarding} onComplete={onCompleteOnboarding} />}
+
+      {store.onboarding.completed && store.onboarding.goal && store.onboarding.notificationPreferences.reminderTime && (
+        <Card className='border-emerald-100 bg-emerald-50/70'>
+          <p className='text-xs font-semibold uppercase tracking-wide text-emerald-700'>Beranda personal Anda</p>
+          <h2 className='mt-1 text-lg font-semibold text-emerald-900'>{personalization.titleByGoal[store.onboarding.goal]}</h2>
+          <p className='mt-1 text-sm text-emerald-800'>{personalization.reminderByTime[store.onboarding.notificationPreferences.reminderTime]}</p>
+          <div className='mt-3 flex flex-wrap gap-2'>
+            {store.onboarding.educationTopics.map((topic) => (
+              <span key={topic} className='rounded-full bg-white px-3 py-1 text-xs font-medium text-emerald-800 ring-1 ring-emerald-200'>
+                #{topic}
+              </span>
+            ))}
+          </div>
+        </Card>
+      )}
+
       <section className='relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-700 to-cyan-600 p-6 text-white shadow-xl md:p-10'>
         <div className='animate-float absolute -right-8 -top-10 h-36 w-36 rounded-full bg-white/10 blur-md' />
         <div className='animate-float absolute -bottom-8 left-10 h-24 w-24 rounded-full bg-cyan-300/30 blur-md [animation-delay:1s]' />
