@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
-import { BookOpenText, CalendarClock, CircleHelp, HeartPulse, Home, Menu, Phone, Route, Search, X } from 'lucide-react'
+import { BookOpenText, CalendarClock, CircleHelp, HeartPulse, Home, MapPinned, Menu, Phone, Route, Search, X } from 'lucide-react'
 
 const navItems = [
   { to: '/', label: 'Beranda', icon: Home, keywords: ['home', 'utama'] },
@@ -10,6 +10,7 @@ const navItems = [
   { to: '/jadwal', label: 'Jadwal', icon: CalendarClock, keywords: ['jam', 'layanan', 'kunjungan'] },
   { to: '/panduan', label: 'Panduan', icon: Route, keywords: ['checklist', 'persiapan', 'alur'] },
   { to: '/faq', label: 'FAQ', icon: CircleHelp, keywords: ['pertanyaan', 'bantuan'] },
+  { to: '/pemantauan', label: 'Pemantauan', icon: MapPinned, keywords: ['maps', 'kanker', 'pasien', 'monitoring'] },
   { to: '/kontak', label: 'Kontak', icon: Phone, keywords: ['hubungi', 'telepon', 'email'] }
 ]
 
@@ -124,7 +125,7 @@ export function PublicLayout({ onAdmin }: { onAdmin: () => void }) {
       </main>
 
       <nav className='fixed inset-x-0 bottom-0 z-50 border-t border-blue-100 bg-white/95 px-2 py-2 backdrop-blur md:hidden dark:border-slate-800 dark:bg-slate-950/95'>
-        <div className='mx-auto grid max-w-6xl grid-cols-6 gap-1'>
+        <div className='mx-auto flex max-w-6xl gap-1 overflow-x-auto pb-1'>
           {navItems.map((item) => {
             const Icon = item.icon
 
@@ -133,7 +134,7 @@ export function PublicLayout({ onAdmin }: { onAdmin: () => void }) {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex flex-col items-center gap-1 rounded-lg px-1 py-2 text-[10px] font-medium transition ${
+                  `min-w-[72px] flex flex-col items-center gap-1 rounded-lg px-1 py-2 text-[10px] font-medium transition ${
                     isActive
                       ? 'bg-blue-600 text-white'
                       : 'text-slate-600 hover:bg-blue-50 dark:text-slate-300 dark:hover:bg-slate-800'

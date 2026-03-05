@@ -16,6 +16,24 @@ export type OnboardingData = {
   }
   educationTopics: string[]
 }
+export type PatientCase = {
+  id: string
+  alias: string
+  city: string
+  province: string
+  cancerType: 'Payudara' | 'Serviks' | 'Nasofaring' | 'Paru' | 'Prostat' | 'Kolorektal'
+  stage: 'I' | 'II' | 'III' | 'IV'
+  status: 'Pemantauan' | 'Terapi Aktif' | 'Follow-up'
+  lastVisit: string
+}
+
+export type ServiceModule = {
+  id: string
+  name: string
+  desc: string
+  status: 'Baru' | 'Populer' | 'Pilot'
+  target: string
+}
 
 export const seed = {
   articles: [
@@ -118,8 +136,8 @@ export const seed = {
   ] as Article[],
   faqs: [
     { id:'f1', question:'Apakah radioterapi sakit?', answer:'Proses penyinaran umumnya tidak menimbulkan nyeri. Namun beberapa pasien bisa mengalami ketidaknyamanan ringan sesuai area terapi.', category:'Umum' },
-    { id:'f2', question:'Berapa lama satu sesi radioterapi?', answer:'Rata-rata 10–30 menit termasuk persiapan posisi, sedangkan waktu penyinaran aktif biasanya hanya beberapa menit.', category:'Jadwal' },
-    { id:'f3', question:'Apakah saya boleh bekerja selama terapi?', answer:'Sebagian pasien tetap dapat bekerja tergantung kondisi fisik. Diskusikan dengan dokter untuk penyesuaian aktivitas.', category:'Aktivitas' },
+    { id:'f2', question:'Berapa lama satu sesi radioterapi?', answer:'Rata-rata 10–30 menit termasuk persiapan posisi, sedangkan waktu penyinaran aktif biasanya hanya beberapa menit.', category:'Layanan' },
+    { id:'f3', question:'Apakah saya boleh makan sebelum terapi?', answer:'Pada umumnya boleh makan ringan sebelum terapi, kecuali ada instruksi khusus dari dokter.', category:'Persiapan' },
     { id:'f4', question:'Kapan harus segera ke IGD?', answer:'Segera ke IGD jika terjadi sesak napas, demam tinggi, perdarahan aktif, atau nyeri berat yang tidak membaik.', category:'Keamanan' },
     { id:'f5', question:'Apakah BPJS dapat digunakan?', answer:'Layanan dapat menggunakan BPJS sesuai prosedur rujukan berjenjang dan kelengkapan dokumen yang berlaku.', category:'Administrasi' },
     { id:'f6', question:'Bolehkah membawa pendamping?', answer:'Ya, pasien diperbolehkan membawa satu pendamping saat registrasi dan edukasi awal sesuai kebijakan fasilitas.', category:'Layanan' },
@@ -150,6 +168,23 @@ export const seed = {
     { id:'i4', name:'Dewi Puspita', phone:'081255443322', email:'dewi.p@example.com', message:'Mohon info apakah ada slot kontrol Sabtu untuk pasien pasca terapi?', read:false, createdAt:'2026-02-05T07:18:00Z' },
     { id:'i5', name:'Budi Santoso', email:'budi.s@example.com', message:'Apakah edukasi keluarga bisa diikuti secara hybrid?', read:true, createdAt:'2026-02-06T10:05:00Z' }
   ] as Inbox[],
+  patientCases: [
+    { id: 'pc1', alias: 'Ny. S (52)', city: 'Jakarta Selatan', province: 'DKI Jakarta', cancerType: 'Payudara', stage: 'II', status: 'Terapi Aktif', lastVisit: '2026-03-01' },
+    { id: 'pc2', alias: 'Tn. R (61)', city: 'Bandung', province: 'Jawa Barat', cancerType: 'Nasofaring', stage: 'III', status: 'Pemantauan', lastVisit: '2026-02-25' },
+    { id: 'pc3', alias: 'Ny. A (49)', city: 'Surabaya', province: 'Jawa Timur', cancerType: 'Serviks', stage: 'II', status: 'Follow-up', lastVisit: '2026-02-28' },
+    { id: 'pc4', alias: 'Tn. D (58)', city: 'Yogyakarta', province: 'DI Yogyakarta', cancerType: 'Prostat', stage: 'I', status: 'Pemantauan', lastVisit: '2026-02-26' },
+    { id: 'pc5', alias: 'Ny. M (46)', city: 'Medan', province: 'Sumatera Utara', cancerType: 'Payudara', stage: 'III', status: 'Terapi Aktif', lastVisit: '2026-03-02' },
+    { id: 'pc6', alias: 'Tn. W (64)', city: 'Makassar', province: 'Sulawesi Selatan', cancerType: 'Paru', stage: 'IV', status: 'Terapi Aktif', lastVisit: '2026-02-27' },
+    { id: 'pc7', alias: 'Ny. K (55)', city: 'Denpasar', province: 'Bali', cancerType: 'Kolorektal', stage: 'III', status: 'Follow-up', lastVisit: '2026-03-01' },
+    { id: 'pc8', alias: 'Tn. H (59)', city: 'Palembang', province: 'Sumatera Selatan', cancerType: 'Paru', stage: 'II', status: 'Pemantauan', lastVisit: '2026-03-01' }
+  ] as PatientCase[],
+  serviceModules: [
+    { id: 'm1', name: 'Peta Sebaran Kanker', desc: 'Visual monitoring pasien berdasarkan wilayah, status terapi, dan tipe kanker.', status: 'Baru', target: 'Tim layanan & manajer kasus' },
+    { id: 'm2', name: 'Telekonsultasi Follow-up', desc: 'Booking konsultasi daring untuk kontrol keluhan ringan pasca terapi.', status: 'Pilot', target: 'Pasien follow-up' },
+    { id: 'm3', name: 'Pengingat Obat & Jadwal', desc: 'Notifikasi minum obat, jadwal fraksinasi, dan edukasi harian personal.', status: 'Populer', target: 'Pasien terapi aktif' },
+    { id: 'm4', name: 'Asesmen Gejala Harian', desc: 'Skor mandiri gejala (nyeri, mual, fatigue) untuk triase cepat oleh perawat.', status: 'Baru', target: 'Pasien rawat jalan' },
+    { id: 'm5', name: 'Navigator Rujukan BPJS', desc: 'Checklist cerdas dokumen BPJS dan status rujukan antar-fasilitas.', status: 'Baru', target: 'Pasien baru & keluarga' }
+  ] as ServiceModule[],
   checklist: [
     'Kartu identitas asli & kartu jaminan kesehatan',
     'Surat rujukan dan ringkasan medis terbaru',

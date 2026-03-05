@@ -8,6 +8,7 @@ import { JadwalPage } from '@/pages/public/JadwalPage'
 import { PanduanPage } from '@/pages/public/PanduanPage'
 import { FAQPage } from '@/pages/public/FAQPage'
 import { KontakPage } from '@/pages/public/KontakPage'
+import { PemantauanPage } from '@/pages/public/PemantauanPage'
 import { DisclaimerPage } from '@/pages/public/DisclaimerPage'
 import { DashboardPage } from '@/pages/admin/DashboardPage'
 import { EdukasiAdminPage } from '@/pages/admin/EdukasiAdminPage'
@@ -36,6 +37,7 @@ export function AppRoutes() {
       <Route path='/panduan' element={<PanduanPage store={store} onCheck={(item)=>update(s=>({...s,checkedItems:s.checkedItems.includes(item)?s.checkedItems.filter(i=>i!==item):[...s.checkedItems,item]}))} />} />
       <Route path='/faq' element={<FAQPage store={store} />} />
       <Route path='/kontak' element={<KontakPage store={store} onSubmit={(m)=>{update(s=>({...s,inbox:[{...m,id:crypto.randomUUID(),read:false,createdAt:new Date().toISOString()},...s.inbox]}));toast.success('Pesan tersimpan ke inbox demo')}} />} />
+      <Route path='/pemantauan' element={<PemantauanPage store={store} />} />
       <Route path='/disclaimer' element={<DisclaimerPage />} />
     </Route>
     <Route path='/admin' element={<AdminLayout onLogout={()=>{logoutAdmin();toast.success('Logout admin');nav('/')}}/>}>

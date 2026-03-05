@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Card } from '@/components/ui/card'
-import { Activity, ArrowRight, CalendarClock, FileText, HeartHandshake, MessageCircleQuestion, ShieldCheck, Sparkles, Stethoscope } from 'lucide-react'
+import { Activity, ArrowRight, CalendarClock, FileText, HeartHandshake, MapPinned, MessageCircleQuestion, ShieldCheck, Sparkles, Stethoscope } from 'lucide-react'
 import type { Store } from '@/store/useLocalStore'
 import type { OnboardingData } from '@/data/seed'
 import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard'
@@ -42,6 +42,7 @@ export function HomePage({ store, onCompleteOnboarding }: HomePageProps) {
     { to: '/jadwal', label: 'Jadwal', icon: CalendarClock },
     { to: '/panduan', label: 'Panduan', icon: FileText },
     { to: '/faq', label: 'FAQ', icon: MessageCircleQuestion },
+    { to: '/pemantauan', label: 'Pemantauan', icon: MapPinned },
     { to: '/kontak', label: 'Kontak', icon: Stethoscope }
   ]
 
@@ -51,6 +52,14 @@ export function HomePage({ store, onCompleteOnboarding }: HomePageProps) {
     ['Sesi/Jadwal', store.schedules.length],
     ['Pengumuman', active.length]
   ] as const
+
+
+
+  const moduleBadge: Record<(typeof store.serviceModules)[number]['status'], string> = {
+    Baru: 'bg-emerald-100 text-emerald-700',
+    Populer: 'bg-blue-100 text-blue-700',
+    Pilot: 'bg-amber-100 text-amber-700'
+  }
 
   const personalization = {
     titleByGoal: {
@@ -109,7 +118,7 @@ export function HomePage({ store, onCompleteOnboarding }: HomePageProps) {
           </Link>
         </div>
 
-        <div className='relative mt-6 flex flex-wrap gap-2'>
+        <div className='relative mt-6 flex gap-2 overflow-x-auto pb-1 md:flex-wrap'>
           {quickLinks.map((item, index) => (
             <Link
               className='animate-fade-in inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2 text-sm backdrop-blur transition hover:scale-[1.02] hover:bg-white/30'
@@ -192,6 +201,23 @@ export function HomePage({ store, onCompleteOnboarding }: HomePageProps) {
               <p className='mb-1 text-xs font-semibold text-blue-700 dark:text-blue-300'>Langkah {index + 1}</p>
               <p>{step}</p>
             </div>
+          ))}
+        </div>
+      </section>
+
+      <section className='space-y-3'>
+        <div className='flex items-center justify-between gap-3'>
+          <h2 className='text-lg font-semibold'>5 Modul Baru Layanan Digital</h2>
+          <Link to='/pemantauan' className='text-sm font-medium text-blue-700 hover:underline'>Lihat semua modul</Link>
+        </div>
+        <div className='grid gap-3 sm:grid-cols-2 lg:grid-cols-5'>
+          {store.serviceModules.map((module) => (
+            <Card key={module.id} className='border-blue-100 p-4 dark:border-slate-700'>
+              <span className={`rounded-full px-2 py-1 text-[10px] font-semibold uppercase tracking-wide ${moduleBadge[module.status]}`}>{module.status}</span>
+              <h3 className='mt-2 text-sm font-semibold text-slate-800 dark:text-slate-100'>{module.name}</h3>
+              <p className='mt-1 text-xs text-slate-600 dark:text-slate-300'>{module.desc}</p>
+              <p className='mt-2 text-[11px] text-slate-500'>Target: {module.target}</p>
+            </Card>
           ))}
         </div>
       </section>
