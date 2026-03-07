@@ -7,6 +7,7 @@ export function DashboardPage({ store }: { store: Store }) {
     ['FAQ', store.faqs.length],
     ['Jadwal', store.schedules.length],
     ['Pengumuman', store.announcements.length],
+    ['Pasien terdaftar', store.patientCases.length],
     ['Inbox belum dibaca', store.inbox.filter((i) => !i.read).length]
   ]
 

@@ -1,4 +1,4 @@
-import { Menu, LayoutDashboard, BookOpen, CircleHelp, CalendarClock, Megaphone, Inbox, Settings, Home, LogOut } from 'lucide-react'
+import { Menu, LayoutDashboard, BookOpen, CircleHelp, CalendarClock, Megaphone, Inbox, Settings, Home, LogOut, Users } from 'lucide-react'
 import { Link, NavLink } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 
@@ -9,6 +9,7 @@ const menus = [
   ['Kelola Jadwal','/admin/jadwal', CalendarClock],
   ['Pengumuman','/admin/pengumuman', Megaphone],
   ['Inbox (Demo)','/admin/inbox', Inbox],
+  ['Modul Pasien','/admin/pasien', Users],
   ['Pengaturan','/admin/pengaturan', Settings]
 ] as const
 

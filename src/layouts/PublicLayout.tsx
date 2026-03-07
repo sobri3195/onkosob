@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
-import { BookOpenText, CalendarClock, CircleHelp, HeartPulse, Home, MapPinned, Menu, Phone, Route, Search, X } from 'lucide-react'
+import { BookOpenText, CalendarClock, CircleHelp, HeartPulse, Home, MapPinned, Menu, Phone, Route, Search, UserRound, X } from 'lucide-react'
 
 const navItems = [
   { to: '/', label: 'Beranda', icon: Home, keywords: ['home', 'utama'] },
@@ -11,6 +11,7 @@ const navItems = [
   { to: '/panduan', label: 'Panduan', icon: Route, keywords: ['checklist', 'persiapan', 'alur'] },
   { to: '/faq', label: 'FAQ', icon: CircleHelp, keywords: ['pertanyaan', 'bantuan'] },
   { to: '/pemantauan', label: 'Pemantauan', icon: MapPinned, keywords: ['maps', 'kanker', 'pasien', 'monitoring'] },
+  { to: '/pasien', label: 'Pasien', icon: UserRound, keywords: ['profil', 'terapi', 'jadwal', 'pengingat'] },
   { to: '/kontak', label: 'Kontak', icon: Phone, keywords: ['hubungi', 'telepon', 'email'] }
 ]
 
