@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Card } from '@/components/ui/card'
-import { Activity, ArrowRight, CalendarClock, FileText, HeartHandshake, MapPinned, MessageCircleQuestion, ShieldCheck, Sparkles, Stethoscope } from 'lucide-react'
+import { Activity, ArrowRight, CalendarClock, FileText, HeartHandshake, MapPinned, MessageCircleQuestion, ShieldCheck, Sparkles, Stethoscope, UserRound } from 'lucide-react'
 import type { Store } from '@/store/useLocalStore'
 import type { OnboardingData } from '@/data/seed'
 import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard'
@@ -43,6 +43,7 @@ export function HomePage({ store, onCompleteOnboarding }: HomePageProps) {
     { to: '/panduan', label: 'Panduan', icon: FileText },
     { to: '/faq', label: 'FAQ', icon: MessageCircleQuestion },
     { to: '/pemantauan', label: 'Pemantauan', icon: MapPinned },
+    { to: '/pasien', label: 'Pasien', icon: UserRound },
     { to: '/kontak', label: 'Kontak', icon: Stethoscope }
   ]
 
@@ -50,6 +51,7 @@ export function HomePage({ store, onCompleteOnboarding }: HomePageProps) {
     ['Artikel', store.articles.length],
     ['FAQ', store.faqs.length],
     ['Sesi/Jadwal', store.schedules.length],
+    ['Profil Pasien', store.patientCases.length],
     ['Pengumuman', active.length]
   ] as const
 
@@ -151,7 +153,7 @@ export function HomePage({ store, onCompleteOnboarding }: HomePageProps) {
         </div>
       </section>
 
-      <section className='grid grid-cols-2 gap-3 md:grid-cols-4'>
+      <section className='grid grid-cols-2 gap-3 md:grid-cols-5'>
         {summaryStats.map(([label, value], index) => (
           <Card
             key={label}
