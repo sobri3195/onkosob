@@ -11,6 +11,7 @@ import { KontakPage } from '@/pages/public/KontakPage'
 import { PemantauanPage } from '@/pages/public/PemantauanPage'
 import { PasienPage } from '@/pages/public/PasienPage'
 import { DisclaimerPage } from '@/pages/public/DisclaimerPage'
+import { NotFoundPage } from '@/pages/public/NotFoundPage'
 import { DashboardPage } from '@/pages/admin/DashboardPage'
 import { EdukasiAdminPage } from '@/pages/admin/EdukasiAdminPage'
 import { FAQAdminPage } from '@/pages/admin/FAQAdminPage'
@@ -42,6 +43,7 @@ export function AppRoutes() {
       <Route path='/pasien' element={<PasienPage store={store} />} />
       <Route path='/pemantauan' element={<PemantauanPage store={store} />} />
       <Route path='/disclaimer' element={<DisclaimerPage />} />
+      <Route path='*' element={<NotFoundPage />} />
     </Route>
     <Route path='/admin' element={<AdminLayout onLogout={()=>{logoutAdmin();toast.success('Logout admin');nav('/')}}/>}>
       <Route path='dashboard' element={<DashboardPage store={store} />} />
