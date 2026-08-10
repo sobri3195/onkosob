@@ -1,0 +1,3 @@
+import { Navigate, useLocation } from 'react-router-dom';import { useAuth,type AppRole } from './AuthContext'
+export function ProtectedRoute({children}:{children:React.ReactNode}){const {user,loading}=useAuth(),location=useLocation();if(loading)return <p className='route-loading'>Memulihkan sesi aman…</p>;return user?<>{children}</>:<Navigate to='/login' state={{from:location.pathname}} replace/>}
+export function RoleProtectedRoute({roles,children}:{roles:AppRole[];children:React.ReactNode}){const {role,loading}=useAuth();if(loading)return <p className='route-loading'>Memeriksa izin…</p>;return role&&roles.includes(role)?<>{children}</>:<Navigate to='/' replace/>}

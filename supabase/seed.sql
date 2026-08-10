@@ -1,0 +1,1 @@
+insert into public.categories(slug,title,description,icon,sort_order) values ('diagnosis','Memahami Diagnosis','Dasar proses diagnosis kanker.','book-open',1),('treatment','Pilihan Perawatan','Edukasi pilihan perawatan dan diskusi bersama tim medis.','heart-pulse',2),('support','Dukungan','Dukungan praktis bagi pasien dan caregiver.','users',3) on conflict do nothing;
