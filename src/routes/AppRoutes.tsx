@@ -32,6 +32,7 @@ import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage } from '
 import { AccountPage } from '@/pages/account/AccountPage'
 import { ProtectedRoute, RoleProtectedRoute } from '@/auth/RouteGuards'
 import { AuditLogPage, EditorialUsersPage } from '@/pages/admin/SecurityAdminPages'
+import { AppointmentsPage, CalendarPage, DiaryPage, MedicationsPage, TodayPage, VisitPrepPage } from '@/pages/companion/CompanionPages'
 const PersonalDashboardPage = lazy(() => import('@/pages/personal/DashboardPage'))
 const ProfilePage = lazy(() => import('@/pages/personal/ProfilePage'))
 const PrivacyCenterPage = lazy(() => import('@/pages/personal/PrivacyCenterPage'))
