@@ -1,0 +1,12 @@
+import { supabase, sessionStore } from '@/lib/supabase'
+import type { DocumentDraft, OncologyDocument } from '@/types/documents'
+const row=(x:any):OncologyDocument=>({id:x.id,userId:x.user_id,title:x.title,category:x.category,documentDate:x.document_date,journeyStage:x.journey_stage,facility:x.facility,clinician:x.clinician,storagePath:x.storage_path,originalFilename:x.original_filename,mimeType:x.mime_type,fileSize:x.file_size,fileHash:x.file_hash,tags:(x.document_tags??[]).map((t:any)=>t.tag),notes:x.notes,important:x.important,createdAt:x.created_at,updatedAt:x.updated_at})
+export const documentRepository={
+ async list(){return (await supabase.rest<any[]>('documents?select=*,document_tags(tag)&order=document_date.desc.nullslast,created_at.desc&limit=100')).map(row)},
+ async get(id:string){const xs=await supabase.rest<any[]>(`documents?id=eq.${encodeURIComponent(id)}&select=*,document_tags(tag)`);if(!xs[0])throw new Error('Anda tidak memiliki akses ke dokumen ini.');return row(xs[0])},
+ async duplicates(hash:string,size:number){return supabase.rest<any[]>(`documents?file_hash=eq.${hash}&file_size=eq.${size}&select=id,title`)},
+ async create(id:string,d:DocumentDraft,file:File,path:string,hash:string){const u=sessionStore.get()?.user;if(!u)throw new Error('Anda perlu masuk untuk menyimpan dokumen.');await supabase.rest('documents',{method:'POST',body:JSON.stringify({id,user_id:u.id,title:d.title.trim(),category:d.category,document_date:d.documentDate||null,journey_stage:d.journeyStage||null,facility:d.facility?.trim()||null,clinician:d.clinician?.trim()||null,storage_path:path,original_filename:file.name,mime_type:file.type,file_size:file.size,file_hash:hash,notes:d.notes?.trim()||null})});await this.setTags(id,d.tags);return this.get(id)},
+ async update(id:string,d:Partial<DocumentDraft>&{important?:boolean}){const {tags,...meta}=d;const payload:any={};Object.entries(meta).forEach(([k,v])=>payload[k.replace(/[A-Z]/g,m=>`_${m.toLowerCase()}`)]=v||null);await supabase.rest(`documents?id=eq.${id}`,{method:'PATCH',body:JSON.stringify(payload)});if(tags)await this.setTags(id,tags);return this.get(id)},
+ async setTags(id:string,tags:string[]){await supabase.rest(`document_tags?document_id=eq.${id}`,{method:'DELETE'});const normalized=[...new Set(tags.map(t=>t.trim().toLowerCase()).filter(Boolean))];if(normalized.length)await supabase.rest('document_tags',{method:'POST',body:JSON.stringify(normalized.map(tag=>({document_id:id,tag})))})},
+ async remove(id:string){await supabase.rest(`documents?id=eq.${id}`,{method:'DELETE'})}
+}
