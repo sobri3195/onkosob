@@ -1,0 +1,21 @@
+import { useEffect, useMemo, useState } from 'react'
+import { Bookmark, BookmarkCheck, Share2 } from 'lucide-react'
+import { Link, useParams } from 'react-router-dom'
+import { ArticleBody, ArticleCard, ArticleHeader, ArticleRevisionHistory, ArticleTableOfContents } from '@/components/article/ArticleComponents'
+import { contentRepository } from '@/services/contentRepository'
+import { useDocumentMetadata } from '@/hooks/useDocumentMetadata'
+import type { MedicalArticle } from '@/types/content'
+
+export function ArticleDetailPage({preview=false}:{preview?:boolean}){
+  const {slug=''}=useParams(),[article,setArticle]=useState<MedicalArticle|null|undefined>(),[related,setRelated]=useState<MedicalArticle[]>([]),[progress,setProgress]=useState(0),[saved,setSaved]=useState(false)
+  useEffect(()=>{contentRepository.getArticleBySlug(slug,{includeUnpublished:preview}).then(found=>{setArticle(found);if(found)contentRepository.getRelatedArticles(found).then(setRelated)})},[slug,preview])
+  useEffect(()=>{const update=()=>{const max=document.documentElement.scrollHeight-innerHeight;setProgress(max?Math.min(100,Math.round(scrollY/max*100)):100)};addEventListener('scroll',update,{passive:true});update();return()=>removeEventListener('scroll',update)},[])
+  useEffect(()=>setSaved(JSON.parse(localStorage.getItem('lentera-saved-medical-articles')??'[]').includes(slug)),[slug])
+  const schemas=useMemo(()=>article?[{'@context':'https://schema.org','@type':article.seo.medicalWebPage?'MedicalWebPage':'Article',headline:article.title,description:article.excerpt,datePublished:article.publishedAt,dateModified:article.updatedAt,mainEntityOfPage:new URL(article.seo.canonicalSlug,location.origin).href},{'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Beranda',item:location.origin},{'@type':'ListItem',position:2,name:'Artikel',item:`${location.origin}/articles`},{'@type':'ListItem',position:3,name:article.title,item:new URL(article.seo.canonicalSlug,location.origin).href}]}]:undefined,[article])
+  useDocumentMetadata(article?.seo.title??'Artikel | Lentera',article?.seo.description??'Artikel edukasi Lentera',article?.seo.canonicalSlug,schemas)
+  if(article===undefined)return <p className='content-loading'>Memuat artikel…</p>
+  if(!article)return <div className='content-loading'><h1>Artikel tidak ditemukan</h1><Link to='/articles'>Kembali ke pustaka artikel</Link></div>
+  const toggleSave=()=>{const key='lentera-saved-medical-articles',items: string[]=JSON.parse(localStorage.getItem(key)??'[]'),next=items.includes(slug)?items.filter(item=>item!==slug):[...items,slug];localStorage.setItem(key,JSON.stringify(next));setSaved(next.includes(slug))}
+  const share=async()=>{const data={title:article.title,url:location.href};if(navigator.share)await navigator.share(data);else await navigator.clipboard.writeText(location.href)}
+  return <div className='medical-article-page'><progress className='reading-progress' value={progress} max={100} aria-label={`Progres membaca ${progress}%`}/><div className='article-shell'><Link className='article-back' to='/articles'>← Semua artikel</Link>{article.status==='archived'&&<aside className='archive-notice'><strong>Konten ini telah diarsipkan dan mungkin tidak lagi mencerminkan rekomendasi terkini.</strong>{article.archivedReplacementSlug&&<Link to={`/articles/${article.archivedReplacementSlug}`}>Baca konten terbaru</Link>}</aside>}<ArticleHeader article={article} preview={preview&&article.status!=='published'}/><div className='article-layout'><ArticleTableOfContents blocks={article.body}/><article className='article-prose'><ArticleBody article={article}/><ArticleRevisionHistory article={article}/></article></div>{!!related.length&&<section className='related-content' aria-labelledby='related-title'><span>LANJUTKAN MEMBACA</span><h2 id='related-title'>Artikel terkait</h2><div className='article-card-grid'>{related.map(item=><ArticleCard key={item.id} article={item}/>)}</div></section>}</div><div className='article-actions no-print'><button onClick={toggleSave}>{saved?<BookmarkCheck/>:<Bookmark/>}{saved?'Tersimpan':'Simpan'}</button><button onClick={share}><Share2/>Bagikan</button></div></div>
+}

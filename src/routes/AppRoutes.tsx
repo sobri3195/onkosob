@@ -3,8 +3,6 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 import { PublicLayout } from '@/layouts/PublicLayout'
 import { AdminLayout } from '@/layouts/AdminLayout'
 import { HomePage } from '@/pages/public/HomePage'
-import { EdukasiPage } from '@/pages/public/EdukasiPage'
-import { EdukasiDetailPage } from '@/pages/public/EdukasiDetailPage'
 import { JadwalPage } from '@/pages/public/JadwalPage'
 import { PanduanPage } from '@/pages/public/PanduanPage'
 import { FAQPage } from '@/pages/public/FAQPage'
@@ -25,6 +23,11 @@ import { useLocalStore } from '@/store/useLocalStore'
 import { toast } from '@/components/ui/use-toast'
 import type { Announcement, Article, FAQ, PatientCase, Schedule } from '@/data/seed'
 import { CaregiverPage, DecodePage, GlossaryPage, JourneyPage, LearningPage, MythFactPage, PreparePage, QuestionsPage, QuizPage, RedFlagsPage, SavedPage, SearchPage, StartPage } from '@/pages/features/FeaturePages'
+import { ArticlesPage } from '@/pages/public/ArticlesPage'
+import { ArticleDetailPage } from '@/pages/public/ArticleDetailPage'
+import { EditorialPolicyPage } from '@/pages/public/EditorialPolicyPage'
+import { EditorialDashboardPage } from '@/pages/editorial/EditorialDashboardPage'
+import { EditorialArticlePage } from '@/pages/editorial/EditorialArticlePage'
 const PersonalDashboardPage = lazy(() => import('@/pages/personal/DashboardPage'))
 const ProfilePage = lazy(() => import('@/pages/personal/ProfilePage'))
 const PrivacyCenterPage = lazy(() => import('@/pages/personal/PrivacyCenterPage'))
@@ -39,8 +42,12 @@ export function AppRoutes() {
   return <Routes>
     <Route element={<PublicLayout onAdmin={()=>{loginAdmin(); toast.success('Admin demo aktif'); nav('/admin/dashboard')}}/>}>
       <Route path='/' element={<HomePage store={store} onCompleteOnboarding={(payload)=>update(s=>({...s,onboarding:payload}))} />} />
-      <Route path='/edukasi' element={<EdukasiPage store={store} />} />
-      <Route path='/edukasi/:slug' element={<EdukasiDetailPage store={store} />} />
+      <Route path='/articles' element={<ArticlesPage />} />
+      <Route path='/articles/:slug' element={<ArticleDetailPage />} />
+      <Route path='/preview/article/:slug' element={<ArticleDetailPage preview />} />
+      <Route path='/editorial-policy' element={<EditorialPolicyPage />} />
+      <Route path='/edukasi' element={<Navigate to='/articles' replace />} />
+      <Route path='/edukasi/:slug' element={<LegacyArticleRedirect />} />
       <Route path='/jadwal' element={<JadwalPage store={store} />} />
       <Route path='/panduan' element={<PanduanPage store={store} onCheck={(item)=>update(s=>({...s,checkedItems:s.checkedItems.includes(item)?s.checkedItems.filter(i=>i!==item):[...s.checkedItems,item]}))} />} />
       <Route path='/faq' element={<FAQPage store={store} />} />
@@ -66,6 +73,8 @@ export function AppRoutes() {
       <Route path='/privacy-center' element={<Suspense fallback={<p className='route-loading'>Memuat pusat privasi…</p>}><PrivacyCenterPage/></Suspense>} />
       <Route path='*' element={<NotFoundPage />} />
     </Route>
+    <Route path='/editorial' element={<EditorialDashboardPage />} />
+    <Route path='/editorial/articles/:id' element={<EditorialArticlePage />} />
     <Route path='/admin' element={<AdminLayout onLogout={()=>{logoutAdmin();toast.success('Logout admin');nav('/')}}/>}>
       <Route path='dashboard' element={<DashboardPage store={store} />} />
       <Route path='edukasi' element={<EdukasiAdminPage store={store} onSave={(a:Article)=>update(s=>({...s,articles:upsert(s.articles,a)}))} onDelete={(id)=>update(s=>({...s,articles:s.articles.filter(a=>a.id!==id)}))} />} />
@@ -78,3 +87,5 @@ export function AppRoutes() {
     </Route>
   </Routes>
 }
+
+function LegacyArticleRedirect(){const {pathname}=useLocation();return <Navigate to={pathname.replace('/edukasi/','/articles/')} replace/>}
