@@ -36,6 +36,9 @@ import { AppointmentsPage, CalendarPage, DiaryPage, MedicationsPage, TodayPage, 
 const PersonalDashboardPage = lazy(() => import('@/pages/personal/DashboardPage'))
 const ProfilePage = lazy(() => import('@/pages/personal/ProfilePage'))
 const PrivacyCenterPage = lazy(() => import('@/pages/personal/PrivacyCenterPage'))
+const DocumentsPage = lazy(() => import('@/pages/documents/DocumentsPages').then(m=>({default:m.DocumentsPage})))
+const DocumentsTimelinePage = lazy(() => import('@/pages/documents/DocumentsPages').then(m=>({default:m.DocumentsTimelinePage})))
+const DocumentDetailPage = lazy(() => import('@/pages/documents/DocumentsPages').then(m=>({default:m.DocumentDetailPage})))
 
 export function AppRoutes() {
   const { store, update, loginAdmin, logoutAdmin } = useLocalStore()
@@ -80,12 +83,9 @@ export function AppRoutes() {
       <Route path='/reset-password' element={<ResetPasswordPage />} />
       <Route path='/account' element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
       <Route path='/privacy-center' element={<Suspense fallback={<p className='route-loading'>Memuat pusat privasi…</p>}><PrivacyCenterPage/></Suspense>} />
-      <Route path='/today' element={<TodayPage />} />
-      <Route path='/calendar' element={<CalendarPage />} />
-      <Route path='/appointments' element={<AppointmentsPage />} />
-      <Route path='/diary' element={<DiaryPage />} />
-      <Route path='/medications' element={<MedicationsPage />} />
-      <Route path='/visit-prep' element={<VisitPrepPage />} />
+      <Route path='/documents' element={<ProtectedRoute><Suspense fallback={<p className='route-loading'>Membuka vault…</p>}><DocumentsPage/></Suspense></ProtectedRoute>} />
+      <Route path='/documents/timeline' element={<ProtectedRoute><Suspense fallback={<p className='route-loading'>Membuka timeline…</p>}><DocumentsTimelinePage/></Suspense></ProtectedRoute>} />
+      <Route path='/documents/:id' element={<ProtectedRoute><Suspense fallback={<p className='route-loading'>Membuka dokumen…</p>}><DocumentDetailPage/></Suspense></ProtectedRoute>} />
       <Route path='*' element={<NotFoundPage />} />
     </Route>
     <Route path='/editorial' element={<ProtectedRoute><RoleProtectedRoute roles={['editor','medical_reviewer','admin']}><EditorialDashboardPage /></RoleProtectedRoute></ProtectedRoute>} />

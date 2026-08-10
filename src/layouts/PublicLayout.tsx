@@ -7,7 +7,7 @@ import { useUser } from '@/context/UserContext'
 const navItems = [
   { to: '/', label: 'Beranda' }, { to: '/journey', label: 'Perjalanan' },
   { to: '/learning', label: 'Edukasi' }, { to: '/glossary', label: 'Tools' },
-  { to: '/articles', label: 'Artikel' }, { to: '/caregiver', label: 'Caregiver' }
+  { to: '/articles', label: 'Artikel' }, { to: '/documents', label: 'Dokumen' }
 ]
 
 export function PublicLayout({ onAdmin }: { onAdmin: () => void }) {

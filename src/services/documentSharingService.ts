@@ -1,0 +1,2 @@
+import { supabase } from '@/lib/supabase'
+export const documentSharingService={async share(documentId:string,caregiverId:string,permission:'view'|'download'){return supabase.rest('document_permissions',{method:'POST',body:JSON.stringify({document_id:documentId,grantee_user_id:caregiverId,permission})})},async revoke(documentId:string,caregiverId:string){return supabase.rest(`document_permissions?document_id=eq.${documentId}&grantee_user_id=eq.${caregiverId}`,{method:'DELETE'})}}
