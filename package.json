@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "brand:generate": "node scripts/generate-brand-assets.mjs",
+    "predev": "npm run brand:generate",
+    "prebuild": "npm run brand:generate"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.0",
