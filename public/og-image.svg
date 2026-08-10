@@ -1,0 +1,10 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#071426"/>
+  <circle cx="984" cy="315" r="190" fill="#0C1B30"/>
+  <g transform="translate(876 188) scale(3.4)"><path d="M24 17c0-5 3.6-9 8-9s8 4 8 9" fill="none" stroke="#D4A94D" stroke-width="4" stroke-linecap="round"/><path d="M20 19h24l5 34H15l5-34Z" fill="#D4A94D"/><path d="M23 25h18l2.8 21H20.2L23 25Z" fill="#071426"/><path d="M32 29c5.5 6.6 5.7 11.7 0 15-5.7-3.3-5.5-8.4 0-15Z" fill="#F7F2E8"/><path d="M13 54h38" stroke="#D4A94D" stroke-width="4" stroke-linecap="round"/></g>
+  <text x="96" y="205" fill="#F7F2E8" font-family="Georgia,serif" font-size="76">Lentera</text>
+  <text x="100" y="258" fill="#D4A94D" font-family="Arial,sans-serif" font-size="24" letter-spacing="8">ONKO VISION</text>
+  <path d="M100 298h510" stroke="#D4A94D" stroke-width="2"/>
+  <text x="100" y="365" fill="#F7F2E8" font-family="Arial,sans-serif" font-size="24">Menyinari perjalanan kanker dengan edukasi dan</text>
+  <text x="100" y="405" fill="#F7F2E8" font-family="Arial,sans-serif" font-size="24">navigasi yang lebih mudah dipahami.</text>
+</svg>
