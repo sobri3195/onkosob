@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { PublicLayout } from '@/layouts/PublicLayout'
 import { AdminLayout } from '@/layouts/AdminLayout'
@@ -24,6 +25,9 @@ import { useLocalStore } from '@/store/useLocalStore'
 import { toast } from '@/components/ui/use-toast'
 import type { Announcement, Article, FAQ, PatientCase, Schedule } from '@/data/seed'
 import { CaregiverPage, DecodePage, GlossaryPage, JourneyPage, LearningPage, MythFactPage, PreparePage, QuestionsPage, QuizPage, RedFlagsPage, SavedPage, SearchPage, StartPage } from '@/pages/features/FeaturePages'
+const PersonalDashboardPage = lazy(() => import('@/pages/personal/DashboardPage'))
+const ProfilePage = lazy(() => import('@/pages/personal/ProfilePage'))
+const PrivacyCenterPage = lazy(() => import('@/pages/personal/PrivacyCenterPage'))
 
 export function AppRoutes() {
   const { store, update, loginAdmin, logoutAdmin } = useLocalStore()
@@ -57,6 +61,9 @@ export function AppRoutes() {
       <Route path='/caregiver' element={<CaregiverPage />} />
       <Route path='/saved' element={<SavedPage />} />
       <Route path='/search' element={<SearchPage />} />
+      <Route path='/dashboard' element={<Suspense fallback={<p className='route-loading'>Menyiapkan ruang Anda…</p>}><PersonalDashboardPage/></Suspense>} />
+      <Route path='/profile' element={<Suspense fallback={<p className='route-loading'>Memuat profil…</p>}><ProfilePage/></Suspense>} />
+      <Route path='/privacy-center' element={<Suspense fallback={<p className='route-loading'>Memuat pusat privasi…</p>}><PrivacyCenterPage/></Suspense>} />
       <Route path='*' element={<NotFoundPage />} />
     </Route>
     <Route path='/admin' element={<AdminLayout onLogout={()=>{logoutAdmin();toast.success('Logout admin');nav('/')}}/>}>
