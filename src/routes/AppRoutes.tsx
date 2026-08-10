@@ -32,6 +32,7 @@ import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage } from '
 import { AccountPage } from '@/pages/account/AccountPage'
 import { ProtectedRoute, RoleProtectedRoute } from '@/auth/RouteGuards'
 import { AuditLogPage, EditorialUsersPage } from '@/pages/admin/SecurityAdminPages'
+import { AppointmentsPage, CalendarPage, DiaryPage, MedicationsPage, TodayPage, VisitPrepPage } from '@/pages/companion/CompanionPages'
 const PersonalDashboardPage = lazy(() => import('@/pages/personal/DashboardPage'))
 const ProfilePage = lazy(() => import('@/pages/personal/ProfilePage'))
 const PrivacyCenterPage = lazy(() => import('@/pages/personal/PrivacyCenterPage'))
@@ -79,6 +80,12 @@ export function AppRoutes() {
       <Route path='/reset-password' element={<ResetPasswordPage />} />
       <Route path='/account' element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
       <Route path='/privacy-center' element={<Suspense fallback={<p className='route-loading'>Memuat pusat privasi…</p>}><PrivacyCenterPage/></Suspense>} />
+      <Route path='/today' element={<TodayPage />} />
+      <Route path='/calendar' element={<CalendarPage />} />
+      <Route path='/appointments' element={<AppointmentsPage />} />
+      <Route path='/diary' element={<DiaryPage />} />
+      <Route path='/medications' element={<MedicationsPage />} />
+      <Route path='/visit-prep' element={<VisitPrepPage />} />
       <Route path='*' element={<NotFoundPage />} />
     </Route>
     <Route path='/editorial' element={<ProtectedRoute><RoleProtectedRoute roles={['editor','medical_reviewer','admin']}><EditorialDashboardPage /></RoleProtectedRoute></ProtectedRoute>} />
