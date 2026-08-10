@@ -23,6 +23,7 @@ import { PasienAdminPage } from '@/pages/admin/PasienAdminPage'
 import { useLocalStore } from '@/store/useLocalStore'
 import { toast } from '@/components/ui/use-toast'
 import type { Announcement, Article, FAQ, PatientCase, Schedule } from '@/data/seed'
+import { CaregiverPage, DecodePage, GlossaryPage, JourneyPage, LearningPage, MythFactPage, PreparePage, QuestionsPage, QuizPage, RedFlagsPage, SavedPage, SearchPage, StartPage } from '@/pages/features/FeaturePages'
 
 export function AppRoutes() {
   const { store, update, loginAdmin, logoutAdmin } = useLocalStore()
@@ -43,6 +44,19 @@ export function AppRoutes() {
       <Route path='/pasien' element={<PasienPage store={store} />} />
       <Route path='/pemantauan' element={<PemantauanPage store={store} />} />
       <Route path='/disclaimer' element={<DisclaimerPage />} />
+      <Route path='/start' element={<StartPage />} />
+      <Route path='/journey' element={<JourneyPage />} />
+      <Route path='/glossary' element={<GlossaryPage />} />
+      <Route path='/decode' element={<DecodePage />} />
+      <Route path='/questions' element={<QuestionsPage />} />
+      <Route path='/prepare' element={<PreparePage />} />
+      <Route path='/learning' element={<LearningPage />} />
+      <Route path='/quiz' element={<QuizPage />} />
+      <Route path='/myth-fact' element={<MythFactPage />} />
+      <Route path='/red-flags' element={<RedFlagsPage />} />
+      <Route path='/caregiver' element={<CaregiverPage />} />
+      <Route path='/saved' element={<SavedPage />} />
+      <Route path='/search' element={<SearchPage />} />
       <Route path='*' element={<NotFoundPage />} />
     </Route>
     <Route path='/admin' element={<AdminLayout onLogout={()=>{logoutAdmin();toast.success('Logout admin');nav('/')}}/>}>
