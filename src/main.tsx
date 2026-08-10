@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { Toaster } from 'sonner'
 import { AppRoutes } from '@/routes/AppRoutes'
 import './index.css'
+import { AuthProvider } from '@/auth/AuthContext'
 import { UserProvider } from '@/context/UserContext'
 import { medicalArticles } from '@/content/articles'
 import { validateContent } from '@/utils/contentValidation'
@@ -19,7 +20,7 @@ if (import.meta.env.DEV) {
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <UserProvider><AppRoutes /></UserProvider>
+      <AuthProvider><UserProvider><AppRoutes /></UserProvider></AuthProvider>
       <Toaster richColors position='top-right' />
     </BrowserRouter>
   </React.StrictMode>

@@ -27,7 +27,11 @@ import { ArticlesPage } from '@/pages/public/ArticlesPage'
 import { ArticleDetailPage } from '@/pages/public/ArticleDetailPage'
 import { EditorialPolicyPage } from '@/pages/public/EditorialPolicyPage'
 import { EditorialDashboardPage } from '@/pages/editorial/EditorialDashboardPage'
-import { EditorialArticlePage } from '@/pages/editorial/EditorialArticlePage'
+import { ArticleEditorPage } from '@/pages/editorial/ArticleEditorPage'
+import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage } from '@/pages/auth/AuthPages'
+import { AccountPage } from '@/pages/account/AccountPage'
+import { ProtectedRoute, RoleProtectedRoute } from '@/auth/RouteGuards'
+import { AuditLogPage, EditorialUsersPage } from '@/pages/admin/SecurityAdminPages'
 const PersonalDashboardPage = lazy(() => import('@/pages/personal/DashboardPage'))
 const ProfilePage = lazy(() => import('@/pages/personal/ProfilePage'))
 const PrivacyCenterPage = lazy(() => import('@/pages/personal/PrivacyCenterPage'))
@@ -35,7 +39,6 @@ const PrivacyCenterPage = lazy(() => import('@/pages/personal/PrivacyCenterPage'
 export function AppRoutes() {
   const { store, update, loginAdmin, logoutAdmin } = useLocalStore()
   const loc = useLocation(); const nav = useNavigate()
-  if (loc.pathname.startsWith('/admin') && !store.isAdmin) { toast.error('Akses admin demo belum aktif'); return <Navigate to='/' replace /> }
 
   const upsert = <T extends {id:string}>(items:T[], item:T)=> items.some(i=>i.id===item.id) ? items.map(i=>i.id===item.id?item:i) : [item, ...items]
 
@@ -70,12 +73,22 @@ export function AppRoutes() {
       <Route path='/search' element={<SearchPage />} />
       <Route path='/dashboard' element={<Suspense fallback={<p className='route-loading'>Menyiapkan ruang Anda…</p>}><PersonalDashboardPage/></Suspense>} />
       <Route path='/profile' element={<Suspense fallback={<p className='route-loading'>Memuat profil…</p>}><ProfilePage/></Suspense>} />
+      <Route path='/login' element={<LoginPage />} />
+      <Route path='/register' element={<RegisterPage />} />
+      <Route path='/forgot-password' element={<ForgotPasswordPage />} />
+      <Route path='/reset-password' element={<ResetPasswordPage />} />
+      <Route path='/account' element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
       <Route path='/privacy-center' element={<Suspense fallback={<p className='route-loading'>Memuat pusat privasi…</p>}><PrivacyCenterPage/></Suspense>} />
       <Route path='*' element={<NotFoundPage />} />
     </Route>
-    <Route path='/editorial' element={<EditorialDashboardPage />} />
-    <Route path='/editorial/articles/:id' element={<EditorialArticlePage />} />
-    <Route path='/admin' element={<AdminLayout onLogout={()=>{logoutAdmin();toast.success('Logout admin');nav('/')}}/>}>
+    <Route path='/editorial' element={<ProtectedRoute><RoleProtectedRoute roles={['editor','medical_reviewer','admin']}><EditorialDashboardPage /></RoleProtectedRoute></ProtectedRoute>} />
+    <Route path='/editorial/articles/:id/edit' element={<ProtectedRoute><RoleProtectedRoute roles={['editor','medical_reviewer','admin']}><ArticleEditorPage /></RoleProtectedRoute></ProtectedRoute>} />
+    <Route path='/editorial/articles/new' element={<ProtectedRoute><RoleProtectedRoute roles={['editor','admin']}><ArticleEditorPage /></RoleProtectedRoute></ProtectedRoute>} />
+    <Route path='/review' element={<Navigate to='/editorial' replace />} />
+    <Route path='/review/:id' element={<ProtectedRoute><RoleProtectedRoute roles={['medical_reviewer','admin']}><ArticleEditorPage /></RoleProtectedRoute></ProtectedRoute>} />
+    <Route path='/admin/audit' element={<ProtectedRoute><RoleProtectedRoute roles={['admin']}><AuditLogPage /></RoleProtectedRoute></ProtectedRoute>} />
+    <Route path='/admin/users' element={<ProtectedRoute><RoleProtectedRoute roles={['admin']}><EditorialUsersPage /></RoleProtectedRoute></ProtectedRoute>} />
+    <Route path='/admin' element={<ProtectedRoute><RoleProtectedRoute roles={['admin']}><AdminLayout onLogout={()=>{signOutCompat(logoutAdmin);toast.success('Logout admin');nav('/')}}/></RoleProtectedRoute></ProtectedRoute>}>
       <Route path='dashboard' element={<DashboardPage store={store} />} />
       <Route path='edukasi' element={<EdukasiAdminPage store={store} onSave={(a:Article)=>update(s=>({...s,articles:upsert(s.articles,a)}))} onDelete={(id)=>update(s=>({...s,articles:s.articles.filter(a=>a.id!==id)}))} />} />
       <Route path='faq' element={<FAQAdminPage store={store} onSave={(f:FAQ)=>update(s=>({...s,faqs:upsert(s.faqs,f)}))} onDelete={(id)=>update(s=>({...s,faqs:s.faqs.filter(f=>f.id!==id)}))} onMove={(id,d)=>update(s=>{const i=s.faqs.findIndex(f=>f.id===id); const j=i+d; if(i<0||j<0||j>=s.faqs.length) return s; const arr=[...s.faqs]; [arr[i],arr[j]]=[arr[j],arr[i]]; return {...s,faqs:arr}})} />} />
@@ -89,3 +102,5 @@ export function AppRoutes() {
 }
 
 function LegacyArticleRedirect(){const {pathname}=useLocation();return <Navigate to={pathname.replace('/edukasi/','/articles/')} replace/>}
+
+function signOutCompat(localLogout:()=>void){ localLogout() }
