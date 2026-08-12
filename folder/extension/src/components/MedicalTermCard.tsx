@@ -1,0 +1,2 @@
+import {BookOpen,Trash2} from 'lucide-react'
+export function MedicalTermCard({term,meaning,onOpen,onDelete}:{term:string;meaning?:string;onOpen:()=>void;onDelete:()=>void}){return <article className="term-card"><div><strong>{term}</strong>{meaning&&<p>{meaning}</p>}</div><button aria-label={`Buka ${term}`} onClick={onOpen}><BookOpen/></button><button aria-label={`Hapus ${term}`} onClick={onDelete}><Trash2/></button></article>}
