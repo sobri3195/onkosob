@@ -33,6 +33,7 @@ import { AccountPage } from '@/pages/account/AccountPage'
 import { ProtectedRoute, RoleProtectedRoute } from '@/auth/RouteGuards'
 import { AuditLogPage, EditorialUsersPage } from '@/pages/admin/SecurityAdminPages'
 import { AppointmentsPage, CalendarPage, DiaryPage, MedicationsPage, TodayPage, VisitPrepPage } from '@/pages/companion/CompanionPages'
+import { PatientApp } from '@/apps/PatientApp'
 const PersonalDashboardPage = lazy(() => import('@/pages/personal/DashboardPage'))
 const ProfilePage = lazy(() => import('@/pages/personal/ProfilePage'))
 const PrivacyCenterPage = lazy(() => import('@/pages/personal/PrivacyCenterPage'))
@@ -51,6 +52,7 @@ export function AppRoutes() {
   const upsert = <T extends {id:string}>(items:T[], item:T)=> items.some(i=>i.id===item.id) ? items.map(i=>i.id===item.id?item:i) : [item, ...items]
 
   return <Routes>
+    <Route path='/apps/*' element={<PatientApp />} />
     <Route element={<PublicLayout onAdmin={()=>{loginAdmin(); toast.success('Admin demo aktif'); nav('/admin/dashboard')}}/>}>
       <Route path='/' element={<HomePage store={store} onCompleteOnboarding={(payload)=>update(s=>({...s,onboarding:payload}))} />} />
       <Route path='/articles' element={<ArticlesPage />} />
