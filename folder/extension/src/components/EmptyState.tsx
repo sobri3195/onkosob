@@ -1,0 +1,1 @@
+export function EmptyState({text,action,onAction}:{text:string;action?:string;onAction?:()=>void}){return <div className="empty"><span>◇</span><p>{text}</p>{action&&<button onClick={onAction}>{action}</button>}</div>}
