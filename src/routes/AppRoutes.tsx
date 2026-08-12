@@ -39,6 +39,10 @@ const PrivacyCenterPage = lazy(() => import('@/pages/personal/PrivacyCenterPage'
 const DocumentsPage = lazy(() => import('@/pages/documents/DocumentsPages').then(m=>({default:m.DocumentsPage})))
 const DocumentsTimelinePage = lazy(() => import('@/pages/documents/DocumentsPages').then(m=>({default:m.DocumentsTimelinePage})))
 const DocumentDetailPage = lazy(() => import('@/pages/documents/DocumentsPages').then(m=>({default:m.DocumentDetailPage})))
+const FollowUpHubPage = lazy(() => import('@/pages/followUp/FollowUpPages').then(m=>({default:m.FollowUpHubPage})))
+const NewFollowUpPage = lazy(() => import('@/pages/followUp/FollowUpPages').then(m=>({default:m.NewFollowUpPage})))
+const FollowUpDetailPage = lazy(() => import('@/pages/followUp/FollowUpPages').then(m=>({default:m.FollowUpDetailPage})))
+const FollowUpHistoryPage = lazy(() => import('@/pages/followUp/FollowUpPages').then(m=>({default:m.FollowUpHistoryPage})))
 
 export function AppRoutes() {
   const { store, update, loginAdmin, logoutAdmin } = useLocalStore()
@@ -83,6 +87,10 @@ export function AppRoutes() {
       <Route path='/reset-password' element={<ResetPasswordPage />} />
       <Route path='/account' element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
       <Route path='/privacy-center' element={<Suspense fallback={<p className='route-loading'>Memuat pusat privasi…</p>}><PrivacyCenterPage/></Suspense>} />
+      <Route path='/follow-up' element={<Suspense fallback={<p className='route-loading'>Menyiapkan follow-up…</p>}><FollowUpHubPage/></Suspense>} />
+      <Route path='/follow-up/new' element={<Suspense fallback={<p className='route-loading'>Menyiapkan formulir…</p>}><NewFollowUpPage/></Suspense>} />
+      <Route path='/follow-up/history' element={<Suspense fallback={<p className='route-loading'>Memuat riwayat…</p>}><FollowUpHistoryPage/></Suspense>} />
+      <Route path='/follow-up/:id' element={<Suspense fallback={<p className='route-loading'>Memuat rencana…</p>}><FollowUpDetailPage/></Suspense>} />
       <Route path='/documents' element={<ProtectedRoute><Suspense fallback={<p className='route-loading'>Membuka vault…</p>}><DocumentsPage/></Suspense></ProtectedRoute>} />
       <Route path='/documents/timeline' element={<ProtectedRoute><Suspense fallback={<p className='route-loading'>Membuka timeline…</p>}><DocumentsTimelinePage/></Suspense></ProtectedRoute>} />
       <Route path='/documents/:id' element={<ProtectedRoute><Suspense fallback={<p className='route-loading'>Membuka dokumen…</p>}><DocumentDetailPage/></Suspense></ProtectedRoute>} />
