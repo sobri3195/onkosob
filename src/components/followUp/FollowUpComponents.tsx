@@ -4,7 +4,7 @@ import { Check, ClipboardList, Copy, FileText, Plus, Printer, Trash2 } from 'luc
 import { toast } from 'sonner'
 import { followUpRepository } from '@/services/followUpRepository'
 import { followUpSummary } from '@/services/followUpSummaryService'
-import type { FollowUpData, FollowUpPlan, FollowUpQuestion, FollowUpTask, FollowUpTaskType, FollowUpVisit } from '@/types/followUp'
+import type { FollowUpData, FollowUpPlan, FollowUpTask, FollowUpTaskType, FollowUpVisit } from '@/types/followUp'
 import type { MedicationSchedule, SymptomEntry } from '@/types/companion'
 
 export const defaultFollowUpChecklist=['Catat keluhan atau perubahan baru','Siapkan daftar obat','Siapkan hasil pemeriksaan terbaru','Catat pertanyaan','Konfirmasi waktu kontrol','Siapkan dokumen yang dibutuhkan']

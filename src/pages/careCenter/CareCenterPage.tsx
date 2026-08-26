@@ -1,9 +1,9 @@
-import { useMemo, useState, type FormEvent } from 'react'
-import { AlertTriangle, CalendarDays, Check, ChevronRight, ClipboardCheck, Copy, FileText, HeartHandshake, LockKeyhole, MessageSquareText, Plus, Printer, ShieldCheck, Stethoscope, TicketCheck, Trash2, Users } from 'lucide-react'
+import { useState, type FormEvent } from 'react'
+import { AlertTriangle, CalendarDays, Check, ChevronRight, ClipboardCheck, Copy, HeartHandshake, LockKeyhole, MessageSquareText, Plus, Printer, ShieldCheck, Stethoscope, TicketCheck, Trash2, Users } from 'lucide-react'
 import { toast } from '@/components/ui/use-toast'
 import { localDate, useCompanionData } from '@/hooks/useCompanionData'
 import { useCareCenterData } from '@/hooks/useCareCenterData'
-import type { CareEpisode, CaregiverScope, CareTask, VisitSummary } from '@/types/careCenter'
+import type { CareEpisode, CaregiverScope, VisitSummary } from '@/types/careCenter'
 
 const tabs=['Rencana bersama','Caregiver','Gejala','Tiket layanan','Q&A terverifikasi','Check-in'] as const
 type Tab=typeof tabs[number]

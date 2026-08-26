@@ -48,7 +48,7 @@ const CareCenterPage = lazy(() => import('@/pages/careCenter/CareCenterPage'))
 
 export function AppRoutes() {
   const { store, update, loginAdmin, logoutAdmin } = useLocalStore()
-  const loc = useLocation(); const nav = useNavigate()
+  const nav = useNavigate()
 
   const upsert = <T extends {id:string}>(items:T[], item:T)=> items.some(i=>i.id===item.id) ? items.map(i=>i.id===item.id?item:i) : [item, ...items]
 
@@ -82,6 +82,12 @@ export function AppRoutes() {
       <Route path='/caregiver' element={<CaregiverPage />} />
       <Route path='/saved' element={<SavedPage />} />
       <Route path='/search' element={<SearchPage />} />
+      <Route path='/today' element={<TodayPage />} />
+      <Route path='/calendar' element={<CalendarPage />} />
+      <Route path='/appointments' element={<AppointmentsPage />} />
+      <Route path='/diary' element={<DiaryPage />} />
+      <Route path='/medications' element={<MedicationsPage />} />
+      <Route path='/visit-prep' element={<VisitPrepPage />} />
       <Route path='/dashboard' element={<Suspense fallback={<p className='route-loading'>Menyiapkan ruang Anda…</p>}><PersonalDashboardPage/></Suspense>} />
       <Route path='/profile' element={<Suspense fallback={<p className='route-loading'>Memuat profil…</p>}><ProfilePage/></Suspense>} />
       <Route path='/login' element={<LoginPage />} />

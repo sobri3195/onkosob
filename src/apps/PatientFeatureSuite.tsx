@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { AlertTriangle,CalendarDays,CheckCircle2,ClipboardList,FileDiff,HeartPulse,Phone,Share2,ShieldCheck,Users } from 'lucide-react'
 import { toast } from 'sonner'
 import { usePatientApp } from './PatientAppContext'
-import type { Appointment,CaregiverTask,DocumentComparison,MedicationEntry,SafetyCheckIn,SymptomEntry } from './types/patientApp'
+import type { CaregiverTask,DocumentComparison,MedicationEntry,SafetyCheckIn,SymptomEntry } from './types/patientApp'
 
 const uid=()=>crypto.randomUUID()
 const isoToday=()=>new Date().toISOString().slice(0,10)
