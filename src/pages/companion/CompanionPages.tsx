@@ -1,6 +1,6 @@
 import { useMemo, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { CalendarDays, Check, ClipboardList, Copy, Edit3, Plus, Printer, Trash2 } from 'lucide-react'
+import { Check, ClipboardList, Copy, Edit3, Plus, Printer, Trash2 } from 'lucide-react'
 import { toast } from '@/components/ui/use-toast'
 import { PatientSafetyNotice } from '@/components/shared/PatientSafetyNotice'
 import { localDate, useCompanionData } from '@/hooks/useCompanionData'

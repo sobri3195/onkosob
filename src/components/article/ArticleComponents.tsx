@@ -1,4 +1,4 @@
-import { AlertTriangle, Bookmark, CalendarClock, CheckCircle2, Clock3, ExternalLink, UserRound } from 'lucide-react'
+import { AlertTriangle, CalendarClock, CheckCircle2, Clock3, ExternalLink, UserRound } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { authors } from '@/content/authors'
 import { categoryById } from '@/content/categories'
