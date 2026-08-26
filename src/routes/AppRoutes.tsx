@@ -44,6 +44,7 @@ const FollowUpHubPage = lazy(() => import('@/pages/followUp/FollowUpPages').then
 const NewFollowUpPage = lazy(() => import('@/pages/followUp/FollowUpPages').then(m=>({default:m.NewFollowUpPage})))
 const FollowUpDetailPage = lazy(() => import('@/pages/followUp/FollowUpPages').then(m=>({default:m.FollowUpDetailPage})))
 const FollowUpHistoryPage = lazy(() => import('@/pages/followUp/FollowUpPages').then(m=>({default:m.FollowUpHistoryPage})))
+const CareCenterPage = lazy(() => import('@/pages/careCenter/CareCenterPage'))
 
 export function AppRoutes() {
   const { store, update, loginAdmin, logoutAdmin } = useLocalStore()
@@ -89,6 +90,7 @@ export function AppRoutes() {
       <Route path='/reset-password' element={<ResetPasswordPage />} />
       <Route path='/account' element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
       <Route path='/privacy-center' element={<Suspense fallback={<p className='route-loading'>Memuat pusat privasi…</p>}><PrivacyCenterPage/></Suspense>} />
+      <Route path='/care-center' element={<Suspense fallback={<p className='route-loading'>Menyiapkan rencana bersama…</p>}><CareCenterPage/></Suspense>} />
       <Route path='/follow-up' element={<Suspense fallback={<p className='route-loading'>Menyiapkan follow-up…</p>}><FollowUpHubPage/></Suspense>} />
       <Route path='/follow-up/new' element={<Suspense fallback={<p className='route-loading'>Menyiapkan formulir…</p>}><NewFollowUpPage/></Suspense>} />
       <Route path='/follow-up/history' element={<Suspense fallback={<p className='route-loading'>Memuat riwayat…</p>}><FollowUpHistoryPage/></Suspense>} />
