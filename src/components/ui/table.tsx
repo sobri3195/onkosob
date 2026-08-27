@@ -1,3 +1,3 @@
 import type { HTMLAttributes } from 'react'
 import { cn } from '@/lib/utils'
-export const Table = ({className,...props}: HTMLAttributes<HTMLTableElement>) => <table className={cn('w-full text-sm', className)} {...props} />
+export const Table = ({className,...props}: HTMLAttributes<HTMLTableElement>) => <table className={cn('w-full border-separate border-spacing-0 overflow-hidden text-left text-sm [&_th]:border-b [&_th]:border-slate-200 [&_th]:bg-slate-50 [&_th]:px-4 [&_th]:py-3 [&_th]:font-semibold [&_th]:text-slate-700 [&_td]:border-b [&_td]:border-slate-100 [&_td]:px-4 [&_td]:py-3.5 [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-amber-50/40 dark:[&_th]:border-slate-700 dark:[&_th]:bg-slate-800 dark:[&_th]:text-slate-200 dark:[&_td]:border-slate-800 dark:[&_tbody_tr:hover]:bg-slate-800/60', className)} {...props} />

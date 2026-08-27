@@ -23,6 +23,7 @@ import { useLocalStore } from '@/store/useLocalStore'
 import { toast } from '@/components/ui/use-toast'
 import type { Announcement, Article, FAQ, PatientCase, Schedule } from '@/data/seed'
 import { CaregiverPage, DecodePage, GlossaryPage, JourneyPage, LearningPage, MythFactPage, PreparePage, QuestionsPage, QuizPage, RedFlagsPage, SavedPage, SearchPage, StartPage } from '@/pages/features/FeaturePages'
+import { RouteSkeleton } from '@/components/shared/RouteSkeleton'
 import { ArticlesPage } from '@/pages/public/ArticlesPage'
 import { ArticleDetailPage } from '@/pages/public/ArticleDetailPage'
 import { EditorialPolicyPage } from '@/pages/public/EditorialPolicyPage'
@@ -88,8 +89,8 @@ export function AppRoutes() {
       <Route path='/diary' element={<DiaryPage />} />
       <Route path='/medications' element={<MedicationsPage />} />
       <Route path='/visit-prep' element={<VisitPrepPage />} />
-      <Route path='/dashboard' element={<Suspense fallback={<p className='route-loading'>Menyiapkan ruang Anda…</p>}><PersonalDashboardPage/></Suspense>} />
-      <Route path='/profile' element={<Suspense fallback={<p className='route-loading'>Memuat profil…</p>}><ProfilePage/></Suspense>} />
+      <Route path='/dashboard' element={<Suspense fallback={<RouteSkeleton label='Menyiapkan ruang Anda…'/>}><PersonalDashboardPage/></Suspense>} />
+      <Route path='/profile' element={<Suspense fallback={<RouteSkeleton label='Memuat profil…'/>}><ProfilePage/></Suspense>} />
       <Route path='/login' element={<LoginPage />} />
       <Route path='/register' element={<RegisterPage />} />
       <Route path='/forgot-password' element={<ForgotPasswordPage />} />
