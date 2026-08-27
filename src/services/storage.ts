@@ -29,6 +29,10 @@ export function loadUserData(): { data: LocalUserData; recovered: boolean } {
   catch { const data = migrateUserData(); saveUserData(data); return { data, recovered: true } }
 }
 export const saveUserData = (data: LocalUserData) => localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(data))
-export const clearUserData = () => { Object.keys(localStorage).filter(key => key === USER_STORAGE_KEY || key.startsWith('lentera.') || key === 'onko-radiasi-learning-progress').forEach(key => localStorage.removeItem(key)) }
+export const clearUserData = () => {
+  Object.keys(localStorage).filter(key => key === USER_STORAGE_KEY || key.startsWith('lentera.') || key === 'onko-radiasi-learning-progress').forEach(key => localStorage.removeItem(key))
+  window.dispatchEvent(new Event('lentera-local-storage-reset'))
+  window.dispatchEvent(new Event('lentera-follow-up-change'))
+}
 export const exportUserData = (data: LocalUserData) => JSON.stringify({ savedQuestions: data.progress.selectedQuestions, savedArticles: data.progress.savedArticles, glossaryFavorites: data.progress.savedGlossaryTerms, checklistProgress: data.progress.checklistProgress, journeyProgress: { currentStage: data.progress.journeyStage, completedStages: data.progress.completedStages }, learningProgress: data.progress.learning, quizProgress: data.progress.quizProgress, followUp: legacy('lentera.follow-up.v1', { plans: [], tasks: [], visits: [], questions: [] }) }, null, 2)
 export const migrateLocalData = migrateUserData
